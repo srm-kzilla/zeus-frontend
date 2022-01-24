@@ -39,15 +39,72 @@ function onFileChange(e: any) {
 </script>
 
 <template>
-  <div v-if="data.EventDetail != null">
-    <h1>
-      {{ data.EventDetail.title }}
-    </h1>
-    <p>
-      {{ data.EventDetail.description }}
-    </p>
-
-    <input type="file" id="template" name="template" @change="onFileChange" />
-    <Users :eventSlug="data.EventDetail.slug" />
+  <div class="event" v-if="data.EventDetail != null">
+    <div class="details">
+      <h1>
+        {{ data.EventDetail.title }}
+      </h1>
+      <p>
+        {{ data.EventDetail.description }}
+      </p>
+    </div>
+    <div class="send-mail-box">
+      <div class="file-upload">
+        <p>Upload the template file</p>
+        <input
+          type="file"
+          id="template"
+          name="template"
+          @change="onFileChange"
+        />
+      </div>
+      <Users :eventSlug="data.EventDetail.slug" />
+    </div>
   </div>
 </template>
+
+<style scoped>
+.event {
+  margin: 2rem 0;
+  padding: 0.5rem 2rem;
+}
+
+.event > .details {
+  margin: 1rem 0;
+}
+
+.file-upload {
+  position: relative;
+  background-color: var(--bg-color);
+  border-radius: 1rem;
+  width: max-content;
+  transition: all 200ms ease-in-out;
+  border: 2px solid var(--accent-color);
+  cursor: pointer;
+}
+
+.file-upload > * {
+  padding: 0.5rem;
+}
+
+.file-upload:hover {
+  background-color: var(--accent-color);
+  color: var(--bg-color);
+  cursor: pointer;
+}
+
+.file-upload > p {
+  z-index: 0;
+  position: absolute;
+  width: 100%;
+  text-align: center;
+}
+
+.file-upload > input {
+  z-index: 1;
+  opacity: 0%;
+  width: 100%;
+  height: 100%;
+  cursor: pointer;
+}
+</style>

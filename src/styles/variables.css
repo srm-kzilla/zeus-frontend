@@ -1,0 +1,11 @@
+:root {
+  /* light */
+  --txt-color: #080f11;
+  --bg-color: #ffffff;
+
+  /* dark */
+  /* --txt-color: #ffffff;
+  --bg-color: #000000; */
+
+  --accent-color: #ff002e;
+}

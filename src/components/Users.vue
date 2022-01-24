@@ -9,13 +9,18 @@ const props = defineProps({
   eventSlug: String,
 });
 
-// const selectAll = () => {
-//   if (data.selectedUsers?.length != data.users?.length)
-//     data.users?.forEach((user) => {
-//       data.selectedUsers?.push(user.name);
-//     });
-//   else data.selectedUsers = [];
-// };
+const selectAll = () => {
+  if (
+    data.selectedUsers &&
+    data.users &&
+    data.selectedUsers?.length < data.users?.length
+  ) {
+    data.users?.forEach((user) => {
+      data.selectedUsers?.push(user.name);
+    });
+    data.selectedUsers = [...new Set(data.selectedUsers)];
+  } else data.selectedUsers = [];
+};
 
 const sendAllMails = () => {
   sendMails([...(data.selectedUsers as string[])]);
@@ -28,8 +33,10 @@ onMounted(async () => {
 </script>
 
 <template v-if="data.users">
-  <button @click="selectAll">Select all</button>
-  <div v-for="user in data.users" :key="user.phoneNumber">
+  <div>
+    <button @click="selectAll">Select all</button>
+  </div>
+  <div class="users" v-for="user in data.users" :key="user.phoneNumber">
     <input
       type="checkbox"
       :id="user.name"
@@ -42,3 +49,14 @@ onMounted(async () => {
   </div>
   <button @click="sendAllMails">send mails</button>
 </template>
+
+<style scoped>
+.users {
+  display: flex;
+  align-items: center;
+}
+
+.users > * {
+  margin: 0.5rem 1rem;
+}
+</style>

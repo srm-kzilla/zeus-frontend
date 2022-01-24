@@ -2,7 +2,7 @@ import { Event, User } from "@/types/global";
 import axios, { AxiosInstance } from "axios";
 
 export const instance: AxiosInstance = axios.create({
-  baseURL: `http://localhost:3000/api`,
+  baseURL: `http://localhost:2000/api`,
 });
 
 // export const instance: AxiosInstance = axios.create({
