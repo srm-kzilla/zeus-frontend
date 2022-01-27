@@ -21,7 +21,6 @@ function redirect() {
     <div>
       <h1>
         {{ props.event.title }}
-        <!-- <span> {{ new Date(event.startDate.$date.$numberLong) }} </span> -->
       </h1>
       <span>{{ props.event.description }}</span>
     </div>
