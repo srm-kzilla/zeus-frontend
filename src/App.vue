@@ -4,7 +4,7 @@ import { Navbar } from "./components";
 
 <template>
   <div class="container">
-    <navbar />
+    <Navbar />
     <router-view />
   </div>
 </template>

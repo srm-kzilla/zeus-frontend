@@ -18,30 +18,23 @@ function redirect() {
 
 <template>
   <div class="card" @click="redirect">
-    <div>
-      <h1>
-        {{ props.event.title }}
-      </h1>
-      <span>{{ props.event.description }}</span>
+    <h1>
+      {{ props.event?.title }}
+    </h1>
+    <div class="time">
+      {{ event?.startDate }}
     </div>
+    <span>{{ props.event?.description }}</span>
   </div>
 </template>
 
 <style scoped>
 .card {
   border: 0.1rem var(--accent-color) solid;
-  margin: 2rem 0;
+  margin: 1rem 0;
   padding: 2rem;
   cursor: pointer;
   border-radius: 1rem;
   transition: all 200ms ease-in-out;
 
-  box-shadow: 5px 7px 10px rgba(0, 0, 0, 0.25);
 }
-
-.card:hover {
-  transform: translateY(1rem);
-  transform: scale(1.02);
-  box-shadow: 5px 7px 10px rgba(0, 0, 0, 0.45);
-}
-</style>

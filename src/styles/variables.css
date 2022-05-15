@@ -1,11 +1,13 @@
 :root {
   /* light */
   --txt-color: #080f11;
+  --txt-secondary: #535353;
   --bg-color: #ffffff;
 
   /* dark */
   /* --txt-color: #ffffff;
-  --bg-color: #000000; */
+  --txt-secondary: #9b9b9b;
+  --bg-color: #1b1b1b; */
 
   --accent-color: #ff002e;
 }

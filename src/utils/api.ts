@@ -1,8 +1,8 @@
-import { Event, User } from "@/types/global";
+import { Event, User } from "../types/global";
 import axios, { AxiosInstance } from "axios";
 
-export const instance: AxiosInstance = axios.create({
-  baseURL: `http://localhost:2000/api`,
+const instance: AxiosInstance = axios.create({
+  baseURL: "https://events-api.srmkzilla.net/api/",
 });
 
 // export const instance: AxiosInstance = axios.create({
@@ -23,7 +23,7 @@ export const postEvent = async (payload: Event): Promise<Event | null> => {
     const res = await instance.post("event", payload);
     return res.data;
   } catch (err) {
-    console.log("Error");
+    console.log(err);
     return null;
   }
 };

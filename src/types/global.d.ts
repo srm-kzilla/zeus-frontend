@@ -1,11 +1,30 @@
 export interface Event {
   _id: string;
-  title: string;
   slug: string;
+
+  // 1st
+  title: string;
+  tagline: string;
+
+  // 2nd
   description: string;
   startDate?: string;
-  speaker?: any[];
   eventCover: string;
+
+  // 3rd
+  timeline: { date?: string; title?: string; description: string }[];
+
+  // 4th
+  speaker: { image?: string; name?: string; about: string }[];
+
+  // 5th
+  prizes: {
+    amount?: string;
+    description?: string;
+    asset?: string;
+    sponsor?: string;
+  }[];
+
   isCompleted: boolean;
 }
 
