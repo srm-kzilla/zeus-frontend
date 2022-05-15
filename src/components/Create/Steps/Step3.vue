@@ -7,6 +7,7 @@ function incInputs() {
 }
 </script>
 <template>
+  <h3>Timeline</h3>
   <div :key="_" v-for="_ in total" class="timeline-container">
     <FormKit
       type="datetime-local"
@@ -31,6 +32,9 @@ function incInputs() {
 </template>
 
 <style scoped>
+h3 {
+  margin-top: 1rem;
+}
 .timeline-container {
   border: 3px solid var(--accent-color);
   padding: 1rem;

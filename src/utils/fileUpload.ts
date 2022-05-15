@@ -7,5 +7,5 @@ export default async function uploadFile(slug: string, eventCover: any) {
   });
 
   const res = await upload(slug, body);
-  return res;
+  return res.key;
 }

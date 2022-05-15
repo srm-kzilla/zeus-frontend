@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { defineProps, reactive } from "vue";
 import { Step1, Step2, Step3, Step4, Step5 } from "./Steps";
-import { ref } from "vue";
+import { ref, watch } from "vue";
 import uploadFile from "../../utils/fileUpload";
 import formatData from "../../utils/formatData";
 import { postEvent } from "../../utils/api";
@@ -13,12 +13,38 @@ const props = defineProps({
 
 const data = ref<any>({});
 const complete = ref(false);
+const imageSource = ref();
 
 const stepnumber = ref(1);
-const submitForm = () => {
-  const url = uploadFile("mozo2", data.value.eventCover);
-  // const formattedData = formatData(data.value);
-  // postEvent(formattedData);
+
+watch(
+  data,
+  (currentValue, oldValue) => {
+    console.log("hello", currentValue);
+
+    if (
+      currentValue.eventCoverUpload !== undefined &&
+      currentValue.eventCoverUpload.length > 0
+    ) {
+      var fr = new FileReader();
+      fr.onload = function () {
+        imageSource.value = fr.result;
+      };
+      fr.readAsDataURL(currentValue.eventCoverUpload[0].file);
+    }
+  },
+  { deep: true },
+);
+
+const submitForm = async () => {
+  const url = await uploadFile("mozo2", data.value.eventCoverUpload);
+  console.log(url);
+  data.value.eventCover = url;
+
+  const formattedData = formatData(data.value);
+  console.log({ ...formattedData });
+
+  postEvent(formattedData);
 };
 
 function incStep() {
@@ -40,6 +66,7 @@ function decStep() {
       <FormKit type="form" v-model="data" :actions="false" @submit="submitForm">
         <section v-show="stepnumber == 1">
           <Step1 />
+          <img id="test" :src="imageSource" />
         </section>
         <section v-show="stepnumber == 2">
           <Step2 />
@@ -92,7 +119,8 @@ function decStep() {
 .form {
   pointer-events: all;
   background: var(--bg-color);
-  min-width: 576px;
+  /* min-width: 576px; */
+  max-width: 80vw;
   padding: 3rem;
   border-radius: 3rem;
   max-height: 80vh;
@@ -113,5 +141,10 @@ function decStep() {
   display: flex;
   align-items: center;
   justify-content: space-between;
+}
+
+img {
+  max-width: 30vw;
+  object-fit: contain;
 }
 </style>

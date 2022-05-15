@@ -21,10 +21,10 @@ export const fetchEvents = async (): Promise<Event[] | null> => {
 export const postEvent = async (payload: Event): Promise<any> => {
   try {
     console.log({ ...payload });
-    return 0;
+    const res = await instance.post("event", payload);
+    console.log(res.data);
 
-    // const res = await instance.post("event", payload);
-    // return res.data;
+    return res.data;
   } catch (err) {
     console.log(err);
     return null;
@@ -75,5 +75,7 @@ export const upload = async (slug: string, payload: any) => {
       "Content-Type": `multipart/form-data;`,
     },
   });
-  return res;
+  console.log(res);
+
+  return res.data;
 };

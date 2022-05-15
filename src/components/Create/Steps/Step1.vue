@@ -3,7 +3,7 @@
   <FormKit name="tagline" label="Tagline" validation="required" />
   <FormKit
     type="file"
-    name="eventCover"
+    name="eventCoverUpload"
     label="Event Cover"
     accept=".png,.jpg,.jpeg"
   />
