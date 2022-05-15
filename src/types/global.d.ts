@@ -5,11 +5,11 @@ export interface Event {
   // 1st
   title: string;
   tagline: string;
+  eventCover: string;
 
   // 2nd
   description: string;
   startDate?: string;
-  eventCover: string;
 
   // 3rd
   timeline: { date?: string; title?: string; description: string }[];

@@ -18,10 +18,13 @@ export const fetchEvents = async (): Promise<Event[] | null> => {
   }
 };
 
-export const postEvent = async (payload: Event): Promise<Event | null> => {
+export const postEvent = async (payload: Event): Promise<any> => {
   try {
-    const res = await instance.post("event", payload);
-    return res.data;
+    console.log({ ...payload });
+    return 0;
+
+    // const res = await instance.post("event", payload);
+    // return res.data;
   } catch (err) {
     console.log(err);
     return null;
