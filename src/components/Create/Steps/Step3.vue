@@ -28,7 +28,17 @@ function incInputs() {
       type="textarea"
     />
   </div>
-  <button @click="incInputs">add</button>
+  <FormKit
+    type="button"
+    :classes="{
+      wrapper: { $reset: true },
+      outer: { $reset: true },
+      inner: { $reset: true },
+      input: { $reset: true },
+    }"
+    @click="incInputs"
+    >add</FormKit
+  >
 </template>
 
 <style scoped>

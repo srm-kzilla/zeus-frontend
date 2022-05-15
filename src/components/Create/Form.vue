@@ -48,11 +48,11 @@ const submitForm = async () => {
 };
 
 function incStep() {
-  stepnumber.value++;
+  if (stepnumber.value < 5) stepnumber.value++;
 }
 
 function decStep() {
-  stepnumber.value--;
+  if (stepnumber.value > 1) stepnumber.value--;
 }
 </script>
 
@@ -81,13 +81,48 @@ function decStep() {
           <Step5 />
         </section>
 
-        <FormKit type="submit" label="Submit" v-if="stepnumber === 5" />
+        <div class="actions">
+          <FormKit
+            type="button"
+            @click="decStep"
+            v-if="stepnumber != 1"
+            :classes="{
+              wrapper: { $reset: true },
+              outer: { $reset: true },
+              inner: { $reset: true },
+              input: { $reset: true },
+            }"
+            wrapper-class="form-button"
+          >
+            Previous
+          </FormKit>
+          <FormKit
+            type="button"
+            @click="incStep"
+            v-if="stepnumber < 5"
+            :classes="{
+              wrapper: { $reset: true },
+              outer: { $reset: true },
+              inner: { $reset: true },
+              input: { $reset: true },
+            }"
+          >
+            Next
+          </FormKit>
+          <FormKit
+            type="submit"
+            label="Submit"
+            v-if="stepnumber === 5"
+            :classes="{
+              wrapper: { $reset: true },
+              outer: { $reset: true },
+              inner: { $reset: true },
+              input: { $reset: true },
+            }"
+          />
+        </div>
       </FormKit>
-      <div class="actions">
-        <button @click="decStep" v-if="stepnumber !== 1">Back</button>
 
-        <button @click="incStep" v-if="stepnumber !== 5">Next</button>
-      </div>
       <pre wrap>{{ data }}</pre>
     </div>
   </div>
@@ -106,6 +141,7 @@ function decStep() {
   pointer-events: none;
   position: fixed;
   top: 0;
+  left: 0;
 
   height: 100vh;
   width: 100vw;
@@ -118,13 +154,24 @@ function decStep() {
 
 .form {
   pointer-events: all;
+  width: clamp(576px, 30%, 90vw);
   background: var(--bg-color);
-  /* min-width: 576px; */
-  max-width: 80vw;
   padding: 3rem;
   border-radius: 3rem;
   max-height: 80vh;
   overflow-y: auto;
+}
+
+@media only screen and (max-width: 768px) {
+  .form {
+    padding: 1rem;
+    border-radius: 1rem;
+    margin: 0.5rem;
+  }
+}
+
+section {
+  margin-top: 2rem;
 }
 
 .heading {
@@ -137,7 +184,7 @@ function decStep() {
 }
 
 .actions {
-  width: 100%;
+  /* width: 100%; */
   display: flex;
   align-items: center;
   justify-content: space-between;
