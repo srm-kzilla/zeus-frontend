@@ -16,9 +16,9 @@ const complete = ref(false);
 
 const stepnumber = ref(1);
 const submitForm = () => {
-  const url = uploadFile(data.value.eventCover);
-  const formattedData = formatData(data.value);
-  postEvent(formattedData);
+  const url = uploadFile("mozo2", data.value.eventCover);
+  // const formattedData = formatData(data.value);
+  // postEvent(formattedData);
 };
 
 function incStep() {
@@ -37,7 +37,6 @@ function decStep() {
         <h1>Create Event</h1>
         <div class="close" @click="props.toggleCreate">X</div>
       </div>
-      {{ stepnumber }}
       <FormKit type="form" v-model="data" :actions="false" @submit="submitForm">
         <section v-show="stepnumber == 1">
           <Step1 />
@@ -96,6 +95,8 @@ function decStep() {
   min-width: 576px;
   padding: 3rem;
   border-radius: 3rem;
+  max-height: 80vh;
+  overflow-y: auto;
 }
 
 .heading {

@@ -1,15 +1,11 @@
-export default async function uploadFile(eventCover: any) {
+import { upload } from "./api";
+
+export default async function uploadFile(slug: string, eventCover: any) {
   const body = new FormData();
   eventCover.forEach((fileItem: any) => {
     body.append("cover", fileItem.file);
   });
 
-  const res = await fetch(
-    "https://events-api.srmkzilla.net/api/event/upload/cover?slug=mozo2",
-    {
-      method: "POST",
-      body: body,
-    },
-  );
+  const res = await upload(slug, body);
   return res;
 }

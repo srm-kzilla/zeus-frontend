@@ -16,13 +16,13 @@ function preventScroll(e: any) {
 function toggleCreate() {
   create.value = !create.value;
 
-  if (create.value) {
-    document
-      .querySelector("body")!
-      .addEventListener("wheel", preventScroll, { passive: false });
-  } else {
-    document.querySelector("body")!.removeEventListener("wheel", preventScroll);
-  }
+  // if (create.value) {
+  //   document
+  //     .querySelector("body")!
+  //     .addEventListener("wheel", preventScroll, { passive: false });
+  // } else {
+  //   document.querySelector("body")!.removeEventListener("wheel", preventScroll);
+  // }
 }
 
 (async () => {

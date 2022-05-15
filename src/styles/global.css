@@ -124,3 +124,7 @@ input[type="checkbox"]:disabled {
   height: 100%;
   cursor: pointer;
 }
+
+.formkit-outer {
+  width: 100%;
+}

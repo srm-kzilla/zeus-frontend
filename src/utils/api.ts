@@ -63,6 +63,17 @@ export const sendMails = async (payload: string[]): Promise<any> => {
   try {
     console.log("email to", payload);
   } catch (err) {
-    console.log("Error");
+    console.log(err);
   }
+};
+
+export const upload = async (slug: string, payload: any) => {
+  const res = await instance.post(`event/upload/cover?slug=${slug}`, payload, {
+    headers: {
+      "accept": "application/json",
+      "Accept-Language": "en-US,en;q=0.8",
+      "Content-Type": `multipart/form-data;`,
+    },
+  });
+  return res;
 };
