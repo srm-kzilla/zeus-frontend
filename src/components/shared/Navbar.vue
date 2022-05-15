@@ -1,10 +1,13 @@
+<script setup lang="ts">
+import Image from "/src/assets/Kzilla Logo.png";
+</script>
 <template>
   <div class="nav">
     <router-link class="link" to="/">
       <h1>Zeus</h1>
     </router-link>
 
-    <div><img src="../../assets/Kzilla Logo.png" alt="Logo" /></div>
+    <div><img :src="Image" alt="Logo" /></div>
   </div>
 </template>
 
