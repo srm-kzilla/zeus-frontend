@@ -15,7 +15,7 @@ export interface Event {
   timeline: { date?: string; title?: string; description: string }[];
 
   // 4th
-  speaker: { image?: string; name?: string; about: string }[];
+  speaker: { slug?: string; image?: string; name?: string; about: string }[];
 
   // 5th
   prizes: {

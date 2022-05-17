@@ -6,7 +6,7 @@ import { Form } from "../components/Create";
 import { Event } from "../types/global";
 
 let data = reactive<{ events: Event[] | null }>({ events: null });
-let create = ref(true);
+let create = ref(false);
 
 function preventScroll(e: any) {
   e.preventDefault();
@@ -33,7 +33,7 @@ function toggleCreate() {
 <template>
   <div class="all-events">
     <h1>All events</h1>
-    <button @click="toggleCreate">Create Event</button>
+    <button @click="toggleCreate" class="button">Create Event</button>
     <EventCard v-for="event in data.events" :key="event._id" :event="event" />
   </div>
   <Form v-if="create" :toggleCreate="toggleCreate" />

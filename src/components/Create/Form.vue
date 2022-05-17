@@ -1,51 +1,63 @@
 <script setup lang="ts">
-import { defineProps, reactive } from "vue";
+import { defineProps, onMounted, onUnmounted } from "vue";
 import { Step1, Step2, Step3, Step4, Step5 } from "./Steps";
 import { ref, watch } from "vue";
 import uploadFile from "../../utils/fileUpload";
 import formatData from "../../utils/formatData";
 import { postEvent } from "../../utils/api";
-import { setErrors } from "@formkit/vue";
+import { Event } from "../../types/global";
 
 const props = defineProps({
   toggleCreate: null,
 });
 
-const data = ref<any>({});
-const complete = ref(false);
-const imageSource = ref();
-
 const stepnumber = ref(1);
+const data = ref<any>({
+  ...JSON.parse(localStorage.getItem("data")!),
+  eventCoverUpload: [],
+});
+const imageSource = ref();
+const imageAlt = ref("Event cover");
 
-watch(
-  data,
-  (currentValue, oldValue) => {
-    console.log("hello", currentValue);
+onMounted(() => {
+  console.log(
+    JSON.parse(localStorage.getItem("data")!).eventCoverUpload.length,
+  );
 
-    if (
-      currentValue.eventCoverUpload !== undefined &&
-      currentValue.eventCoverUpload.length > 0
-    ) {
-      var fr = new FileReader();
-      fr.onload = function () {
-        imageSource.value = fr.result;
-      };
-      fr.readAsDataURL(currentValue.eventCoverUpload[0].file);
+  if (JSON.parse(localStorage.getItem("data")!).eventCoverUpload.length >= 1) {
+    alert("You will need to upload the image again");
+  }
+});
+
+async function saveToLocal() {
+  let storedData = data.value;
+  localStorage.setItem("data", JSON.stringify({ ...storedData }));
+}
+
+async function submitForm() {
+  let formattedData: any = formatData(data.value);
+  const ids: any[] = [];
+  Object.keys(formattedData).map((key) => {
+    if (key.includes("pz") || key.includes("spk")) {
+      ids.push({ key, id: parseInt(key.split("_")[1]) - 1 });
     }
-  },
-  { deep: true },
-);
+  });
 
-const submitForm = async () => {
-  const url = await uploadFile("mozo2", data.value.eventCoverUpload);
-  console.log(url);
-  data.value.eventCover = url;
+  for (let i = 0; i < ids.length; i++) {
+    const url = await uploadFile(formattedData.slug, data.value[ids[i].key]);
 
-  const formattedData = formatData(data.value);
-  console.log({ ...formattedData });
+    console.log("ids sel", ids[i]);
+
+    if (ids[i].key.includes("pz")) formattedData.prizes[ids[i].id].asset = url;
+    else if (ids[i].key.includes("spk"))
+      formattedData.speaker[ids[i].id].image = url;
+  }
+
+  const url = await uploadFile(formattedData.slug, data.value.eventCoverUpload);
+  formattedData.eventCover = url;
 
   postEvent(formattedData);
-};
+}
 
 function incStep() {
   if (stepnumber.value < 5) stepnumber.value++;
@@ -54,6 +66,52 @@ function incStep() {
 function decStep() {
   if (stepnumber.value > 1) stepnumber.value--;
 }
+
+const resetForm = () => {
+  if (confirm("Are you sure you want to reset the Form?")) {
+    localStorage.setItem("data", "");
+    data.value = { eventCoverUpload: [] };
+  }
+};
+
+const removeInput = (toDel: string, fields: string[], id: number) => {
+  fields.map((field) => {
+    delete data.value[`${toDel}_${field}_${id}`];
+  });
+};
+
+const saveInterval = window.setInterval(saveToLocal, 1000);
+
+watch(
+  data,
+  (currentValue, _oldValue) => {
+    try {
+      if (
+        currentValue.eventCoverUpload !== undefined &&
+        currentValue.eventCoverUpload.length > 0
+      ) {
+        const reader = new FileReader();
+        reader.readAsDataURL(currentValue.eventCoverUpload[0].file);
+
+        reader.onload = function (e) {
+          imageSource.value = reader.result;
+        };
+      } else {
+        imageSource.value = "";
+        imageAlt.value = "";
+      }
+    } catch (err) {
+      console.log(err);
+      imageAlt.value =
+        "Error loading the image (image may get uploaded successfully)";
+    }
+  },
+  { deep: true },
+);
+
+onUnmounted(() => {
+  window.clearInterval(saveInterval);
+});
 </script>
 
 <template>
@@ -66,19 +124,20 @@ function decStep() {
       <FormKit type="form" v-model="data" :actions="false" @submit="submitForm">
         <section v-show="stepnumber == 1">
           <Step1 />
-          <img id="test" :src="imageSource" />
+          <img id="test" :src="imageSource" :alt="imageAlt" />
         </section>
         <section v-show="stepnumber == 2">
           <Step2 />
         </section>
+
         <section v-show="stepnumber == 3">
-          <Step3 />
+          <Step3 :remove="removeInput" />
         </section>
         <section v-show="stepnumber == 4">
-          <Step4 />
+          <Step4 :remove="removeInput" />
         </section>
         <section v-show="stepnumber == 5">
-          <Step5 />
+          <Step5 :remove="removeInput" />
         </section>
 
         <div class="actions">
@@ -93,6 +152,7 @@ function decStep() {
               input: { $reset: true },
             }"
             wrapper-class="form-button"
+            input-class="button"
           >
             Previous
           </FormKit>
@@ -106,6 +166,8 @@ function decStep() {
               inner: { $reset: true },
               input: { $reset: true },
             }"
+            outer-class="next-button"
+            input-class="button"
           >
             Next
           </FormKit>
@@ -119,8 +181,23 @@ function decStep() {
               inner: { $reset: true },
               input: { $reset: true },
             }"
+            input-class="button"
           />
         </div>
+
+        <FormKit
+          type="button"
+          @click="resetForm"
+          label="Reset Form"
+          :classes="{
+            wrapper: { $reset: true },
+            outer: { $reset: true },
+            inner: { $reset: true },
+            input: { $reset: true },
+          }"
+          :style="{ margin: 'auto' }"
+          input-class="button"
+        />
       </FormKit>
 
       <pre wrap>{{ data }}</pre>

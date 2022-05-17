@@ -20,11 +20,25 @@ export const fetchEvents = async (): Promise<Event[] | null> => {
 
 export const postEvent = async (payload: Event): Promise<any> => {
   try {
-    console.log({ ...payload });
     const res = await instance.post("event", payload);
-    console.log(res.data);
+    console.log(payload.prizes, payload.speaker);
+    console.log(res);
 
+    if (res.data) {
+      payload.speaker.forEach((speaker) => (speaker.slug = payload.slug));
+      const speakerRes = await postSpeaker(payload.speaker as any);
+    }
     return res.data;
+  } catch (err) {
+    console.log(err);
+    return null;
+  }
+};
+
+export const postSpeaker = async (payload: any): Promise<any> => {
+  try {
+    const res = await instance.post("event/speaker", payload[0]);
+    return res;
   } catch (err) {
     console.log(err);
     return null;
@@ -78,4 +92,27 @@ export const upload = async (slug: string, payload: any) => {
   console.log(res);
 
   return res.data;
+};
+
+export const updateEvent = async (
+  slug: string,
+  payload: Event,
+): Promise<any> => {
+  try {
+    const res = await instance.put(`event/upload/cover?slug=${slug}`, payload);
+    return res.data;
+  } catch (err) {
+    console.log(err);
+    return null;
+  }
+};
+
+export const updateSpeaker = async (payload: Event): Promise<any> => {
+  try {
+    const res = await instance.put("event", payload);
+    return res.data;
+  } catch (err) {
+    console.log(err);
+    return null;
+  }
 };

@@ -21,6 +21,7 @@ watch(
   async (newId) => {
     id.value = newId;
     data.EventDetail = await fetchSingleEvent(id.value as string);
+    console.log(data.EventDetail);
   },
 );
 

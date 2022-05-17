@@ -1,49 +1,81 @@
 <script setup lang="ts">
 import { ref } from "vue";
+const props = defineProps({
+  remove: null,
+});
+
 const total = ref(1);
 
 function incInputs() {
   total.value++;
 }
+
+function decInputs() {
+  props.remove("speaker", ["name", "image", "about", "email"], total.value);
+  total.value--;
+}
 </script>
 <template>
   <h3>Speaker info</h3>
-  <div :key="_" v-for="_ in total" class="timeline-container">
-    <FormKit
-      :name="'speaker_' + 'name_' + _"
-      label="Name"
-      validation="required"
-    />
+  <div>
+    <div :key="_" v-for="_ in total" class="timeline-container">
+      <FormKit
+        :name="'speaker_' + 'name_' + _"
+        label="Name"
+        validation="required"
+      />
 
-    <FormKit
-      :name="'speaker_' + 'image_' + _"
-      label="Image"
-      validation="required"
-    />
+      <!-- <FormKit :name="'speaker_' + 'image_' + _" label="Image" /> -->
+      <FormKit
+        type="file"
+        :name="`spk_${_}_ImageUpload`"
+        label="Speaker Image"
+        accept=".png,.jpg,.jpeg"
+      />
+      <FormKit
+        :name="'speaker_' + 'email_' + _"
+        label="Email"
+        validation="required|email"
+      />
 
-    <FormKit
-      :name="'speaker_' + 'about_' + _"
-      label="About"
-      validation="required"
-      type="textarea"
-    />
+      <FormKit
+        :name="'speaker_' + 'about_' + _"
+        label="About"
+        type="textarea"
+      />
+    </div>
   </div>
-  <button @click="incInputs">add</button>
+
+  <div class="actions">
+    <FormKit
+      type="button"
+      :classes="{
+        wrapper: { $reset: true },
+        outer: { $reset: true },
+        inner: { $reset: true },
+        input: { $reset: true },
+      }"
+      @click="decInputs"
+      input-class="secondary-button"
+      >Remove Speaker</FormKit
+    >
+    <FormKit
+      type="button"
+      :classes="{
+        wrapper: { $reset: true },
+        outer: { $reset: true },
+        inner: { $reset: true },
+        input: { $reset: true },
+      }"
+      @click="incInputs"
+      input-class="secondary-button"
+      >Add Speaker</FormKit
+    >
+  </div>
 </template>
 
 <style scoped>
 h3 {
   margin-top: 1rem;
-}
-.timeline-container {
-  border: 3px solid var(--accent-color);
-  padding: 1rem;
-  margin: 1rem 0;
-  border-radius: 1rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  flex-direction: column;
 }
 </style>

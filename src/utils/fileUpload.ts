@@ -1,6 +1,9 @@
-import { upload } from "./api";
+import { postEvent, upload } from "./api";
 
-export default async function uploadFile(slug: string, eventCover: any) {
+const uploadFile: (slug: string, eventCover: any) => any = async (
+  slug,
+  eventCover,
+) => {
   const body = new FormData();
   eventCover.forEach((fileItem: any) => {
     body.append("cover", fileItem.file);
@@ -8,4 +11,6 @@ export default async function uploadFile(slug: string, eventCover: any) {
 
   const res = await upload(slug, body);
   return res.key;
-}
+};
+
+export default uploadFile;

@@ -42,8 +42,8 @@ export default function formatData(data: Event) {
     data.speaker = speaker;
     data.prizes = prizes;
   }
-  delete (data as any).eventCoverUpload;
-  data.slug = data.title.toLowerCase().replace(" ", "_");
+  // delete (data as any).eventCoverUpload;
+  data.slug = data.title.toLowerCase().replaceAll(" ", "_");
   console.log(data);
 
   return data;
