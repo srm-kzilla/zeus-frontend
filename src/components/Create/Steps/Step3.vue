@@ -8,8 +8,6 @@ let currentTotal = ref(0);
 // Optimize this
 const data = JSON.parse(localStorage.getItem("data")!);
 Object.keys(data).map((key: string) => {
-  console.log(key);
-
   if (key.includes("timeline")) {
     const num = parseInt(key.split("_")[2]);
     if (num > currentTotal.value) currentTotal.value = num;

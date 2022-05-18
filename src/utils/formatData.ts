@@ -39,12 +39,10 @@ export default function formatData(data: Event) {
     }
 
     data.timeline = timeline;
-    data.speaker = speaker;
+    data.speakers = speaker;
     data.prizes = prizes;
   }
   // delete (data as any).eventCoverUpload;
   data.slug = data.title.toLowerCase().replaceAll(" ", "_");
-  console.log(data);
-
   return data;
 }

@@ -20,10 +20,6 @@ const imageSource = ref();
 const imageAlt = ref("Event cover");
 
 onMounted(() => {
-  console.log(
-    JSON.parse(localStorage.getItem("data")!).eventCoverUpload.length,
-  );
-
   if (JSON.parse(localStorage.getItem("data")!).eventCoverUpload.length >= 1) {
     alert("You will need to upload the image again");
   }
@@ -45,8 +41,6 @@ async function submitForm() {
 
   for (let i = 0; i < ids.length; i++) {
     const url = await uploadFile(formattedData.slug, data.value[ids[i].key]);
-
-    console.log("ids sel", ids[i]);
 
     if (ids[i].key.includes("pz")) formattedData.prizes[ids[i].id].asset = url;
     else if (ids[i].key.includes("spk"))
@@ -101,7 +95,6 @@ watch(
         imageAlt.value = "";
       }
     } catch (err) {
-      console.log(err);
       imageAlt.value =
         "Error loading the image (image may get uploaded successfully)";
     }
