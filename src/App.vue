@@ -13,4 +13,9 @@ import { Navbar } from "./components";
 .container {
   padding: 2rem;
 }
+@media screen and (max-width: 768px) {
+  .container {
+    padding: 0.5rem;
+  }
+}
 </style>

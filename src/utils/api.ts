@@ -3,11 +3,11 @@ import axios, { AxiosInstance } from "axios";
 
 const instance: AxiosInstance = axios.create({
   baseURL: "https://events-api.srmkzilla.net/api/",
+  headers: {
+    "X-Access-Token":
+      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2NTI4MjcyNjQsImlzcyI6ImVzaEBtYWlsLmNvbSJ9.QtN7csw5SoMv3YEWW4BO9fa9s50zwPEsye1e8gSZW9I",
+  },
 });
-
-// export const instance: AxiosInstance = axios.create({
-//   baseURL: `http://localhost:5000/`,
-// });
 
 export const fetchEvents = async (): Promise<Event[] | null> => {
   try {
@@ -45,10 +45,12 @@ export const postSpeaker = async (payload: any): Promise<any> => {
   }
 };
 
-export const fetchSingleEvent = async (id: string): Promise<Event | null> => {
+export const fetchSingleEvent = async (
+  slug: string,
+): Promise<Event[] | null> => {
   try {
-    if (id) {
-      const res = await instance.get("event", { params: { id } });
+    if (slug) {
+      const res = await instance.get(`event/${slug}`);
       return res.data;
     }
     return null;
@@ -87,6 +89,8 @@ export const upload = async (slug: string, payload: any) => {
       "accept": "application/json",
       "Accept-Language": "en-US,en;q=0.8",
       "Content-Type": `multipart/form-data;`,
+      "X-Access-Token":
+        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2NTI4MjcyNjQsImlzcyI6ImVzaEBtYWlsLmNvbSJ9.QtN7csw5SoMv3YEWW4BO9fa9s50zwPEsye1e8gSZW9I",
     },
   });
   console.log(res);

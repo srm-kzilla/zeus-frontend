@@ -98,3 +98,10 @@ h6 {
   align-items: center;
   gap: 1rem;
 }
+
+.asset-image {
+  max-width: 100%;
+  max-height: 12rem;
+  object-fit: contain;
+  margin-left: auto;
+}

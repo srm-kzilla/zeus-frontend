@@ -10,7 +10,7 @@ const props = defineProps({
 });
 
 function redirect() {
-  const id = props.event!._id;
+  const id = props.event!.slug;
 
   router.push({ path: `/event/${id}` });
 }

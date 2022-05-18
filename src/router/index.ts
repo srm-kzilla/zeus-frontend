@@ -12,7 +12,7 @@ const routes: Array<RouteRecordRaw> = [
   },
 
   {
-    path: "/event/:id",
+    path: "/event/:slug",
     name: "Event",
     component: Event,
     props: true,
