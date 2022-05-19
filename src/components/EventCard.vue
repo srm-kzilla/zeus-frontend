@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { defineProps, PropType } from "vue";
+import { PropType } from "vue";
 import { useRouter } from "vue-router";
 import { Event as EventType } from "../types/global";
 

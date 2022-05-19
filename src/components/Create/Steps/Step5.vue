@@ -4,24 +4,32 @@ const props = defineProps({
   remove: null,
 });
 
-const total = ref(1);
+const currentTotal = ref(0);
+
+const data = JSON.parse(localStorage.getItem("data")!);
+Object.keys(data).map((key: string) => {
+  if (key.includes("prizes")) {
+    const num = parseInt(key.split("_")[2]);
+    if (num > currentTotal.value) currentTotal.value = num;
+  }
+});
 
 function incInputs() {
-  total.value++;
+  currentTotal.value++;
 }
 
 function decInputs() {
   props.remove(
     "prizes",
     ["amount", "description", "asset", "sponsor"],
-    total.value,
+    currentTotal.value,
   );
-  total.value--;
+  currentTotal.value--;
 }
 </script>
 <template>
   <h3>Prizes</h3>
-  <div :key="_" v-for="_ in total" class="timeline-container">
+  <div :key="_" v-for="_ in currentTotal" class="timeline-container">
     <FormKit :name="'prizes_' + 'amount_' + _" label="Amount" />
 
     <FormKit

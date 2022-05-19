@@ -1,15 +1,17 @@
 <script setup lang="ts">
-import { defineProps, onMounted, onUnmounted } from "vue";
+import { onMounted, onUnmounted } from "vue";
 import { Step1, Step2, Step3, Step4, Step5 } from "./Steps";
 import { ref, watch } from "vue";
 import uploadFile from "../../utils/fileUpload";
 import formatData from "../../utils/formatData";
-import { postEvent } from "../../utils/api";
+import { postEvent, putEvent } from "../../utils/api";
 import { Event } from "../../types/global";
+interface Props {
+  toggleCreate: () => void;
+  update?: boolean;
+}
 
-const props = defineProps({
-  toggleCreate: null,
-});
+const { toggleCreate, update } = defineProps<Props>();
 
 const stepnumber = ref(1);
 const data = ref<any>({
@@ -32,7 +34,9 @@ async function saveToLocal() {
 
 async function submitForm() {
   let formattedData: any = formatData(data.value);
+  if (update) formattedData.slug = localStorage.getItem("oldslug");
   const ids: any[] = [];
+
   Object.keys(formattedData).map((key) => {
     if (key.includes("pz") || key.includes("spk")) {
       ids.push({ key, id: parseInt(key.split("_")[1]) - 1 });
@@ -42,15 +46,20 @@ async function submitForm() {
   for (let i = 0; i < ids.length; i++) {
     const url = await uploadFile(formattedData.slug, data.value[ids[i].key]);
 
-    if (ids[i].key.includes("pz")) formattedData.prizes[ids[i].id].asset = url;
-    else if (ids[i].key.includes("spk"))
-      formattedData.speaker[ids[i].id].image = url;
+    if (!url.includes("no key")) {
+      if (ids[i].key.includes("pz"))
+        formattedData.prizes[ids[i].id].asset = url;
+      else if (ids[i].key.includes("spk"))
+        formattedData.speakers[ids[i].id].image = url;
+    }
   }
 
   const url = await uploadFile(formattedData.slug, data.value.eventCoverUpload);
-  formattedData.eventCover = url;
 
-  postEvent(formattedData);
+  if (!url.includes("no key")) formattedData.eventCover = url;
+
+  if (update) putEvent(formattedData);
+  else postEvent(formattedData);
 }
 
 function incStep() {
@@ -63,7 +72,7 @@ function decStep() {
 
 const resetForm = () => {
   if (confirm("Are you sure you want to reset the Form?")) {
-    localStorage.setItem("data", "");
+    localStorage.removeItem("data");
     data.value = { eventCoverUpload: [] };
   }
 };
@@ -112,7 +121,7 @@ onUnmounted(() => {
     <div class="form">
       <div class="heading">
         <h1>Create Event</h1>
-        <div class="close" @click="props.toggleCreate">X</div>
+        <div class="close" @click="toggleCreate">X</div>
       </div>
       <FormKit type="form" v-model="data" :actions="false" @submit="submitForm">
         <section v-show="stepnumber == 1">
@@ -196,7 +205,7 @@ onUnmounted(() => {
       <pre wrap>{{ data }}</pre>
     </div>
   </div>
-  <div class="background" @click="props.toggleCreate"></div>
+  <div class="background" @click="toggleCreate"></div>
 </template>
 <style scoped>
 .background {

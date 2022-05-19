@@ -5,12 +5,15 @@ const uploadFile: (slug: string, eventCover: any) => any = async (
   eventCover,
 ) => {
   const body = new FormData();
+
   eventCover.forEach((fileItem: any) => {
-    body.append("cover", fileItem.file);
+    body.append("file", fileItem.file);
   });
 
-  const res = await upload(slug, body);
-  return res.key;
+  if (eventCover.length > 0) {
+    const res = await upload(slug, body);
+    return res.key;
+  } else return "no key";
 };
 
 export default uploadFile;

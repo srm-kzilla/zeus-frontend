@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { fetchUserByEvent, sendMails } from "../../utils/api";
-import { defineProps, onMounted, reactive, ref } from "vue";
+import { onMounted, reactive, ref } from "vue";
 import { User as UserType } from "../../types/global";
 
 const data: { users: UserType[] | null } = reactive({ users: null });

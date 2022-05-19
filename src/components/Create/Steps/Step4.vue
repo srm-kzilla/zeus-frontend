@@ -4,21 +4,33 @@ const props = defineProps({
   remove: null,
 });
 
-const total = ref(1);
+const currentTotal = ref(0);
+
+const data = JSON.parse(localStorage.getItem("data")!);
+Object.keys(data).map((key: string) => {
+  if (key.includes("speaker")) {
+    const num = parseInt(key.split("_")[2]);
+    if (num > currentTotal.value) currentTotal.value = num;
+  }
+});
 
 function incInputs() {
-  total.value++;
+  currentTotal.value++;
 }
 
 function decInputs() {
-  props.remove("speaker", ["name", "image", "about", "email"], total.value);
-  total.value--;
+  props.remove(
+    "speaker",
+    ["name", "image", "about", "email"],
+    currentTotal.value,
+  );
+  currentTotal.value--;
 }
 </script>
 <template>
   <h3>Speaker info</h3>
   <div>
-    <div :key="_" v-for="_ in total" class="timeline-container">
+    <div :key="_" v-for="_ in currentTotal" class="timeline-container">
       <FormKit
         :name="'speaker_' + 'name_' + _"
         label="Name"
