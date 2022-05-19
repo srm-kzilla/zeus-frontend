@@ -6,7 +6,7 @@ import makeToast from "./createToast";
 const instance: AxiosInstance = axios.create({
   baseURL: (import.meta as any).env.VITE_BASE_URL,
   headers: {
-    "X-Access-Token": (import.meta as any).env.VITE_TOKEN,
+    "X-Access-Token": localStorage.getItem("token")!,
   },
 });
 
@@ -166,7 +166,7 @@ export const upload = async (slug: string, payload: any) => {
         "accept": "application/json",
         "Accept-Language": "en-US,en;q=0.8",
         "Content-Type": `multipart/form-data;`,
-        "X-Access-Token": (import.meta as any).env.VITE_TOKEN,
+        "X-Access-Token": localStorage.getItem("token")!,
       },
     });
     if (res.data) updateLoading(false);
@@ -178,6 +178,21 @@ export const upload = async (slug: string, payload: any) => {
   } catch (err) {
     console.log(err);
     makeToast("Error in Uploading image", { type: "danger" });
+    updateLoading(false);
+  }
+};
+
+export const login = async (payload: string[]): Promise<any> => {
+  try {
+    const res = await instance.post("admin/login", payload);
+    console.log("login", res);
+    if (res.data.token) {
+      localStorage.setItem("token", res.data.token);
+      window.location.reload();
+    }
+  } catch (err) {
+    console.log(err);
+    makeToast("Error in Logging in", { type: "danger" });
     updateLoading(false);
   }
 };

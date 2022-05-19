@@ -1,14 +1,15 @@
 import { createRouter, createWebHistory, RouteRecordRaw } from "vue-router";
 import AllEvents from "../views/AllEvents.vue";
 import Event from "../views/Event.vue";
+import Login from "../views/Login.vue";
 
-const isAuth = true;
+const isAuth = localStorage.getItem("token");
 
 const routes: Array<RouteRecordRaw> = [
   {
     path: "/",
     name: "Home",
-    component: isAuth && AllEvents,
+    component: isAuth ? AllEvents : Login,
   },
 
   {
