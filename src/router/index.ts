@@ -2,14 +2,14 @@ import { createRouter, createWebHistory, RouteRecordRaw } from "vue-router";
 import AllEvents from "../views/AllEvents.vue";
 import Event from "../views/Event.vue";
 import Login from "../views/Login.vue";
-
-const isAuth = localStorage.getItem("token");
+import { isAuth } from "../utils/authStore";
+console.log(isAuth);
 
 const routes: Array<RouteRecordRaw> = [
   {
     path: "/",
     name: "Home",
-    component: isAuth ? AllEvents : Login,
+    component: isAuth.value ? AllEvents : Login,
   },
 
   {
@@ -23,6 +23,13 @@ const routes: Array<RouteRecordRaw> = [
 const router = createRouter({
   history: createWebHistory(),
   routes,
+});
+router.beforeEach((to, from) => {
+  console.log(isAuth, to.name);
+
+  if (!isAuth.value && to.name !== "Home") {
+    return { name: "Home" };
+  }
 });
 
 export default router;

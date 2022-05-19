@@ -2,6 +2,7 @@ import { Event, User } from "../types/global";
 import axios, { AxiosInstance } from "axios";
 import { updateLoading } from "./toggleLoading";
 import makeToast from "./createToast";
+import { updateAuth } from "./authStore";
 
 const instance: AxiosInstance = axios.create({
   baseURL: (import.meta as any).env.VITE_BASE_URL,
@@ -188,6 +189,7 @@ export const login = async (payload: string[]): Promise<any> => {
     console.log("login", res);
     if (res.data.token) {
       localStorage.setItem("token", res.data.token);
+      updateAuth(true);
       window.location.reload();
     }
   } catch (err) {

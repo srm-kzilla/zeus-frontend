@@ -1,5 +1,11 @@
 <script setup lang="ts">
 import Image from "/src/assets/Kzilla Logo.png";
+import { updateAuth } from "../../utils/authStore";
+function logout() {
+  localStorage.removeItem("token");
+  updateAuth(false);
+  window.location.reload();
+}
 </script>
 <template>
   <div class="nav">
@@ -7,7 +13,10 @@ import Image from "/src/assets/Kzilla Logo.png";
       <h1>Zeus</h1>
     </router-link>
 
-    <div><img :src="Image" alt="Logo" /></div>
+    <div class="right">
+      <button class="button logout" @click="logout">Logout</button>
+      <img :src="Image" alt="Logo" />
+    </div>
   </div>
 </template>
 
@@ -24,5 +33,10 @@ import Image from "/src/assets/Kzilla Logo.png";
 .logo-text,
 img {
   cursor: pointer;
+}
+.right {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
 }
 </style>
