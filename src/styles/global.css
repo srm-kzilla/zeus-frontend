@@ -118,3 +118,6 @@ h6 {
     padding: 0.5rem;
   }
 }
+.mosha__toast__content__text {
+  color: white;
+}

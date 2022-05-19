@@ -29,7 +29,7 @@ import { loading } from "./utils/toggleLoading";
   position: fixed;
   inset: 0;
   pointer-events: all;
-  z-index: 1000;
+  z-index: 40;
 }
 .container {
   padding: 2rem;

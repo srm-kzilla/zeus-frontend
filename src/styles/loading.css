@@ -8,9 +8,8 @@
 .wave {
   width: 5px;
   height: 100px;
-  background: linear-gradient(45deg, cyan, #fff);
+  background: var(--accent-color);
   margin: 10px;
-  /* scale: 0; */
   animation: wave 1s linear infinite;
   border-radius: 20px;
 }

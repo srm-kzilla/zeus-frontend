@@ -28,7 +28,7 @@ function toggleCreate() {
 }
 
 const getEvent = async () => {
-  data.event = (await fetchSingleEvent(slug.value.toString()))![0];
+  data.event = ((await fetchSingleEvent(slug.value.toString())) as Event[])![0];
 };
 getEvent();
 

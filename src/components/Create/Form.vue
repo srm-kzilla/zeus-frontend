@@ -6,6 +6,8 @@ import uploadFile from "../../utils/fileUpload";
 import formatData from "../../utils/formatData";
 import { postEvent, putEvent } from "../../utils/api";
 import { Event } from "../../types/global";
+import Close from "../shared/Close.vue";
+
 interface Props {
   toggleCreate: () => void;
   update?: boolean;
@@ -58,8 +60,13 @@ async function submitForm() {
 
   if (!url.includes("no key")) formattedData.eventCover = url;
 
-  if (update) putEvent(formattedData);
-  else postEvent(formattedData);
+  let res;
+  if (update) res = await putEvent(formattedData);
+  else res = await postEvent(formattedData);
+
+  console.log("here", res);
+
+  if (res) toggleCreate();
 }
 
 function incStep() {
@@ -121,7 +128,9 @@ onUnmounted(() => {
     <div class="form">
       <div class="heading">
         <h1>{{ update ? "Update" : "Create" }} Event</h1>
-        <div class="close" @click="toggleCreate">X</div>
+        <div class="close" @click="toggleCreate">
+          <Close />
+        </div>
       </div>
       <FormKit type="form" v-model="data" :actions="false" @submit="submitForm">
         <section v-show="stepnumber == 1">

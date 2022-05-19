@@ -1,6 +1,7 @@
 import { Event, User } from "../types/global";
 import axios, { AxiosInstance } from "axios";
 import { updateLoading } from "./toggleLoading";
+import makeToast from "./createToast";
 
 const instance: AxiosInstance = axios.create({
   baseURL: (import.meta as any).env.VITE_BASE_URL,
@@ -9,7 +10,7 @@ const instance: AxiosInstance = axios.create({
   },
 });
 
-export const fetchEvents = async (): Promise<Event[] | null> => {
+export const fetchEvents = async (): Promise<Event[] | unknown> => {
   try {
     updateLoading(true);
     const res = await instance.get("events");
@@ -17,7 +18,7 @@ export const fetchEvents = async (): Promise<Event[] | null> => {
 
     return res.data;
   } catch (err) {
-    return null;
+    return err;
   }
 };
 
@@ -31,10 +32,14 @@ export const postEvent = async (payload: Event): Promise<any> => {
       const speakerRes = await postSpeaker(payload.speakers as any);
       if (speakerRes.data) updateLoading(false);
     }
+    console.log(res);
+
     return res.data;
   } catch (err) {
     console.log(err);
-    return null;
+    makeToast("Error in Adding Event", { type: "danger" });
+    updateLoading(false);
+    return err;
   }
 };
 
@@ -42,17 +47,31 @@ export const putEvent = async (payload: Event): Promise<any> => {
   try {
     updateLoading(true);
     const res = await instance.put("event", payload);
+
+    if (res.status == 200)
+      makeToast("Successfully Updated Event", { type: "success" });
+
     if (res.data) {
       payload.speakers.forEach((speaker) => (speaker.slug = payload.slug));
+      const toUpdateSpeaker = payload.speakers.filter((speaker) => speaker._id);
+      const newSpeakers = payload.speakers.filter((speaker) => !speaker._id);
 
-      const speakerRes = await putSpeaker(payload.speakers as any);
-      if (speakerRes) updateLoading(false);
+      if (toUpdateSpeaker.length > 0) {
+        const speakerRes = await putSpeaker(toUpdateSpeaker as any);
+        if (speakerRes) updateLoading(false);
+      }
+      if (newSpeakers.length > 0) {
+        const speakerRes = await postSpeaker(newSpeakers as any);
+        if (speakerRes) updateLoading(false);
+      }
     }
 
     return res.data;
   } catch (err) {
     console.log(err);
-    return null;
+    makeToast("Error in Updating Event", { type: "danger" });
+    updateLoading(false);
+    return err;
   }
 };
 
@@ -61,10 +80,15 @@ export const postSpeaker = async (payload: any): Promise<any> => {
     updateLoading(true);
     const res = await instance.post("event/speaker", payload[0]);
     if (res.data) updateLoading(false);
+
+    if (res.status == 200)
+      makeToast("Successfully Added Speaker", { type: "success" });
     return res;
   } catch (err) {
     console.log(err);
-    return null;
+    makeToast("Error in Adding Speaker", { type: "danger" });
+    updateLoading(false);
+    return err;
   }
 };
 
@@ -74,16 +98,21 @@ export const putSpeaker = async (payload: any): Promise<any> => {
     const res = await instance.put("event/speaker", payload[0]);
     if (res.data) updateLoading(false);
 
+    if (res.status == 200)
+      makeToast("Successfully Updated Speaker", { type: "success" });
+
     return res;
   } catch (err) {
     console.log(err);
-    return null;
+    makeToast("Error in Updating Speaker", { type: "danger" });
+    updateLoading(false);
+    return err;
   }
 };
 
 export const fetchSingleEvent = async (
   slug: string,
-): Promise<Event[] | null> => {
+): Promise<Event[] | unknown> => {
   try {
     if (slug) {
       updateLoading(true);
@@ -94,13 +123,15 @@ export const fetchSingleEvent = async (
     return null;
   } catch (err) {
     console.log(err);
-    return null;
+    makeToast("Error in Getting Event Details", { type: "danger" });
+    updateLoading(false);
+    return err;
   }
 };
 
 export const fetchUserByEvent = async (
   slug: string,
-): Promise<User[] | null> => {
+): Promise<User[] | unknown> => {
   try {
     if (slug) {
       updateLoading(true);
@@ -111,7 +142,9 @@ export const fetchUserByEvent = async (
     return null;
   } catch (err) {
     console.log(err);
-    return null;
+    makeToast("Error in Getting users", { type: "danger" });
+    updateLoading(false);
+    return err;
   }
 };
 
@@ -120,6 +153,8 @@ export const sendMails = async (payload: string[]): Promise<any> => {
     console.log("email to", payload);
   } catch (err) {
     console.log(err);
+    makeToast("Error in Sending mails", { type: "danger" });
+    updateLoading(false);
   }
 };
 
@@ -135,8 +170,14 @@ export const upload = async (slug: string, payload: any) => {
       },
     });
     if (res.data) updateLoading(false);
+
+    if (res.status == 200)
+      makeToast("Successfully Uploaded Image", { type: "success" });
+
     return res.data;
   } catch (err) {
     console.log(err);
+    makeToast("Error in Uploading image", { type: "danger" });
+    updateLoading(false);
   }
 };

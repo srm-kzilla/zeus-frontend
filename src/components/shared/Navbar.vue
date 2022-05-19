@@ -7,7 +7,7 @@ import Image from "/src/assets/Kzilla Logo.png";
       <h1>Zeus</h1>
     </router-link>
 
-    <div><img :src="Image" alt="Logo" /></div>
+    <!-- <div><img :src="Image" alt="Logo" /></div> -->
   </div>
 </template>
 
