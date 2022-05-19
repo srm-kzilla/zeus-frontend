@@ -41,30 +41,23 @@ watch(slug, () => {
 
 <template>
   <Form v-if="create" :toggleCreate="toggleCreate" :update="true" />
-  <button @click="toggleCreate">hello</button>
   <div class="event" v-if="data.event != null">
+    <button @click="toggleCreate" class="button">Update Event</button>
     <Details :data="data.event" />
-    <Prizes :prizes="data.event.prizes" />
-    <Speakers :speakers="data.event.speakers" />
-    <Timeline :timeline="data.event.timeline" />
+    <div class="event-section">
+      <Prizes :prizes="data.event.prizes" />
+    </div>
+    <div class="event-section">
+      <Speakers :speakers="data.event.speakers" />
+    </div>
+    <div class="event-section">
+      <Timeline :timeline="data.event.timeline" />
+    </div>
   </div>
 </template>
 
 <style scoped>
-.event {
-  margin: 2rem 0;
-  padding: 2rem;
-  border: 2px solid var(--accent-color);
-  border-radius: 2rem;
-}
-
-@media screen and (max-width: 768px) {
-  .event {
-    padding: 0.5rem;
-  }
-}
-
-.event > .details {
-  margin: 1rem 0;
+.button {
+  margin-right: auto;
 }
 </style>

@@ -120,7 +120,7 @@ onUnmounted(() => {
   <div class="form-container">
     <div class="form">
       <div class="heading">
-        <h1>Create Event</h1>
+        <h1>{{ update ? "Update" : "Create" }} Event</h1>
         <div class="close" @click="toggleCreate">X</div>
       </div>
       <FormKit type="form" v-model="data" :actions="false" @submit="submitForm">
@@ -201,8 +201,6 @@ onUnmounted(() => {
           input-class="button"
         />
       </FormKit>
-
-      <pre wrap>{{ data }}</pre>
     </div>
   </div>
   <div class="background" @click="toggleCreate"></div>

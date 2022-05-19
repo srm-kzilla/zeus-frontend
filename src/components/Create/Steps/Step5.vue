@@ -29,22 +29,24 @@ function decInputs() {
 </script>
 <template>
   <h3>Prizes</h3>
-  <div :key="_" v-for="_ in currentTotal" class="timeline-container">
-    <FormKit :name="'prizes_' + 'amount_' + _" label="Amount" />
+  <div>
+    <div :key="_" v-for="_ in currentTotal" class="timeline-container">
+      <FormKit :name="'prizes_' + 'amount_' + _" label="Amount" />
 
-    <FormKit
-      :name="'prizes_' + 'description_' + _"
-      label="Description"
-      type="textarea"
-    />
+      <FormKit
+        :name="'prizes_' + 'description_' + _"
+        label="Description"
+        type="textarea"
+      />
 
-    <FormKit
-      type="file"
-      :name="`pz_${_}_ImageUpload`"
-      label="Asset Image"
-      accept=".png,.jpg,.jpeg"
-    />
-    <FormKit :name="'prizes_' + 'sponsor_' + _" label="Sponsor" />
+      <FormKit
+        type="file"
+        :name="`pz_${_}_ImageUpload`"
+        label="Asset Image"
+        accept=".png,.jpg,.jpeg"
+      />
+      <FormKit :name="'prizes_' + 'sponsor_' + _" label="Sponsor" />
+    </div>
   </div>
 
   <div class="actions">

@@ -105,3 +105,16 @@ h6 {
   object-fit: contain;
   margin-left: auto;
 }
+
+.event-section {
+  margin: 2rem 0;
+  padding: 2rem;
+  border: 2px solid var(--accent-color);
+  border-radius: 2rem;
+}
+
+@media screen and (max-width: 768px) {
+  .event-section {
+    padding: 0.5rem;
+  }
+}
