@@ -16,8 +16,6 @@ function toggleCreate() {
   localStorage.removeItem("data");
   localStorage.setItem("oldslug", data.event?.slug!);
 
-  console.log(data.event?.speakers);
-
   const newData: any = data;
   newData.event.eventCoverUpload = [];
 

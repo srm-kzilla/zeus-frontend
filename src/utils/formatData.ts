@@ -21,10 +21,7 @@ export default function formatData(data: Event) {
     if (key.includes("speaker")) {
       let moddedKey = key;
       if (key.includes("_id")) {
-        console.log("hello");
-
         moddedKey = key.replace("_", "");
-        console.log(moddedKey.split("_")[1]);
       }
 
       let currKey = moddedKey.split("_")[1];
@@ -36,7 +33,6 @@ export default function formatData(data: Event) {
 
       delete (data as any)[key];
     }
-    console.log(speaker);
 
     //fix prizes
     if (key.includes("prizes")) {
