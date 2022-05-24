@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { defineProps, PropType } from "vue";
+import { PropType } from "vue";
 import { useRouter } from "vue-router";
 import { Event as EventType } from "../types/global";
 
@@ -10,7 +10,7 @@ const props = defineProps({
 });
 
 function redirect() {
-  const id = props.event!._id;
+  const id = props.event!.slug;
 
   router.push({ path: `/event/${id}` });
 }
@@ -18,25 +18,31 @@ function redirect() {
 
 <template>
   <div class="card" @click="redirect">
-    <div>
-      <h1>
-        {{ props.event.title }}
-      </h1>
-      <span>{{ props.event.description }}</span>
+    <h1>
+      {{ props.event?.title }}
+    </h1>
+    <div class="time">
+      {{ event?.startDate }}
     </div>
+    <span>{{ props.event?.description }}</span>
   </div>
 </template>
 
 <style scoped>
 .card {
   border: 0.1rem var(--accent-color) solid;
-  margin: 2rem 0;
+  margin: 1rem 0;
   padding: 2rem;
   cursor: pointer;
   border-radius: 1rem;
   transition: all 200ms ease-in-out;
 
   box-shadow: 5px 7px 10px rgba(0, 0, 0, 0.25);
+}
+
+.card > .time {
+  color: var(--txt-secondary);
+  font-weight: 500;
 }
 
 .card:hover {

@@ -1,5 +1,5 @@
 @import url("./variables.css");
-@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&family=Poppins:wght@100;200;300&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&family=Poppins:wght@100;200;300;500&display=swap");
 
 * {
   box-sizing: border-box;
@@ -33,59 +33,91 @@ h6 {
   font-weight: 600;
 }
 
-button {
+.button {
   background-color: var(--bg-color);
   padding: 0.5rem 1rem;
   cursor: pointer;
-  margin: 1rem 0;
+  margin: 0.1rem 0;
 
-  border-radius: 0.75rem;
+  border-radius: 0.25rem;
   width: max-content;
   transition: all 200ms ease-in-out;
   border: 2px solid var(--accent-color);
 }
 
-button:hover {
+.button:hover {
   background-color: var(--accent-color);
   color: var(--bg-color);
 }
 
-input[type="checkbox"] {
-  -webkit-appearance: none;
-  appearance: none;
-  background-color: var(--background-color);
-  margin: 0;
-
-  font: inherit;
-  color: var(--accent-color);
-  width: 1.15rem;
-  height: 1.15rem;
-  border: 0.15rem solid var(--accent-color);
-  border-radius: 0.15rem;
-  transform: translateY(-0.075rem);
-
-  display: grid;
-  place-content: center;
+.formkit-outer {
+  width: 100%;
+}
+.formkit-wrapper {
+  min-width: 100%;
+  width: inherit;
 }
 
-input[type="checkbox"]::before {
-  content: "";
-  width: 0.65rem;
-  height: 0.65rem;
-  clip-path: polygon(14% 44%, 0 65%, 50% 100%, 100% 16%, 80% 0%, 43% 62%);
-  transform: scale(0);
-  transform-origin: bottom left;
-  transition: 120ms transform ease-in-out;
-  box-shadow: inset 1rem 1rem var(--accent-color);
+.next-button {
+  margin-left: auto;
+  align-self: flex-end;
 }
 
-input[type="checkbox"]:checked::before {
-  transform: scale(1);
+.secondary-button {
+  background-color: var(--accent-color);
+  padding: 0.5rem 0.75rem;
+  border-radius: 0 0 0.25rem 0.25rem;
+  color: white;
+  cursor: pointer;
+
+  transition: all 50ms ease-in-out;
+}
+.secondary-button:hover {
+  background-color: var(--accent-color);
+  opacity: 0.8;
 }
 
-input[type="checkbox"]:disabled {
-  --form-control-color: var(--form-control-disabled);
+.timeline-container {
+  border: 3px solid var(--accent-color);
+  padding: 1rem;
+  margin: 0.5rem 0;
+  border-radius: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 
-  color: var(--form-control-disabled);
-  cursor: not-allowed;
+  flex-direction: column;
+}
+
+.timeline-container:last-child {
+  margin: 0 !important;
+}
+.actions {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+}
+
+.asset-image {
+  max-width: 100%;
+  max-height: 12rem;
+  object-fit: contain;
+  margin-left: auto;
+}
+
+.event-section {
+  margin: 2rem 0;
+  padding: 2rem;
+  border: 2px solid var(--accent-color);
+  border-radius: 2rem;
+}
+
+@media screen and (max-width: 768px) {
+  .event-section {
+    padding: 0.5rem;
+  }
+}
+.mosha__toast__content__text {
+  color: white;
 }

@@ -1,25 +1,19 @@
 import { createRouter, createWebHistory, RouteRecordRaw } from "vue-router";
-import Home from "../views/Home.vue";
 import AllEvents from "../views/AllEvents.vue";
 import Event from "../views/Event.vue";
-import Create from "../views/Create.vue";
-
-const isAuth = true;
+import Login from "../views/Login.vue";
+import { isAuth } from "../utils/authStore";
+console.log(isAuth);
 
 const routes: Array<RouteRecordRaw> = [
   {
     path: "/",
     name: "Home",
-    component: isAuth ? AllEvents : Home,
-  },
-  {
-    path: "/create",
-    name: "Create",
-    component: Create,
+    component: isAuth.value ? AllEvents : Login,
   },
 
   {
-    path: "/event/:id",
+    path: "/event/:slug",
     name: "Event",
     component: Event,
     props: true,
@@ -27,8 +21,15 @@ const routes: Array<RouteRecordRaw> = [
 ];
 
 const router = createRouter({
-  history: createWebHistory(process.env.BASE_URL),
+  history: createWebHistory(),
   routes,
+});
+router.beforeEach((to, from) => {
+  console.log(isAuth, to.name);
+
+  if (!isAuth.value && to.name !== "Home") {
+    return { name: "Home" };
+  }
 });
 
 export default router;

@@ -1,11 +1,16 @@
 :root {
   /* light */
   --txt-color: #080f11;
+  --txt-secondary: #535353;
   --bg-color: #ffffff;
 
   /* dark */
-  /* --txt-color: #ffffff;
-  --bg-color: #000000; */
+  /* --txt-color: #dfdfdf;
+  --txt-secondary: #4d4d4d;
+  --bg-color: #010409; */
 
-  --accent-color: #ff002e;
+  --accent-color: #024ca1;
+
+  --fk-color-primary: #c85304;
+  --fk-color-input: var(--txt-color);
 }
