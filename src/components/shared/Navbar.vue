@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import Image from "/src/assets/Kzilla Logo.png";
+import Image from "../../assets/Kzilla Logo.png";
 import { updateAuth } from "../../utils/authStore";
 function logout() {
   localStorage.removeItem("token");

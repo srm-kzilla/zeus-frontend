@@ -3,7 +3,13 @@ import { reactive, ref, watch } from "vue";
 import { fetchSingleEvent } from "../utils/api";
 import { Event } from "../types/global";
 import { useRoute } from "vue-router";
-import { Prizes, Speakers, Timeline, Details } from "../components/Event";
+import {
+  Prizes,
+  Speakers,
+  Timeline,
+  Details,
+  Users,
+} from "../components/Event";
 import { Form } from "../components/Create";
 import { unFormatData } from "../utils/formatData";
 
@@ -50,6 +56,10 @@ watch(slug, () => {
     </div>
     <div class="event-section">
       <Timeline :timeline="data.event.timeline" />
+    </div>
+
+    <div class="event-section">
+      <Users :eventSlug="data.event.slug" />
     </div>
   </div>
 </template>
