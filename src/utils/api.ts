@@ -142,8 +142,7 @@ export const fetchUserByEvent = async (
       return res.data;
     }
     return null;
-  } catch (err) {
-    console.log(err);
+  } catch (err: any) {
     makeToast("Error in Getting users", { type: "danger" });
     updateLoading(false);
     return err;
