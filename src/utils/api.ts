@@ -15,7 +15,7 @@ export const fetchEvents = async (): Promise<Event[] | unknown> => {
   try {
     updateLoading(true);
     const res = await instance.get("events");
-    if (res.data) updateLoading(false);
+    if (res) updateLoading(false);
 
     return res.data;
   } catch (err) {
@@ -31,7 +31,7 @@ export const postEvent = async (payload: Event): Promise<any> => {
     if (res.data) {
       payload.speakers.forEach((speaker) => (speaker.slug = payload.slug));
       const speakerRes = await postSpeaker(payload.speakers as any);
-      if (speakerRes.data) updateLoading(false);
+      if (speakerRes) updateLoading(false);
     }
     console.log(res);
 
@@ -80,7 +80,7 @@ export const postSpeaker = async (payload: any): Promise<any> => {
   try {
     updateLoading(true);
     const res = await instance.post("event/speaker", payload[0]);
-    if (res.data) updateLoading(false);
+    if (res) updateLoading(false);
 
     if (res.status == 200)
       makeToast("Successfully Added Speaker", { type: "success" });
@@ -97,7 +97,7 @@ export const putSpeaker = async (payload: any): Promise<any> => {
   try {
     updateLoading(true);
     const res = await instance.put("event/speaker", payload[0]);
-    if (res.data) updateLoading(false);
+    if (res) updateLoading(false);
 
     if (res.status == 200)
       makeToast("Successfully Updated Speaker", { type: "success" });
@@ -118,7 +118,7 @@ export const fetchSingleEvent = async (
     if (slug) {
       updateLoading(true);
       const res = await instance.get(`event/${slug}`);
-      if (res.data) updateLoading(false);
+      if (res) updateLoading(false);
       return res.data;
     }
     return null;
@@ -132,11 +132,12 @@ export const fetchSingleEvent = async (
 
 export const fetchUserByEvent = async (
   slug: string,
-): Promise<User[] | unknown> => {
+): Promise<User[] | null> => {
   try {
     if (slug) {
       updateLoading(true);
       const res = await instance.get("users", { params: { slug } });
+
       if (res.data) updateLoading(false);
       return res.data;
     }
