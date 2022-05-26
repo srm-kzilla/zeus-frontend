@@ -15,7 +15,7 @@ const loginUser = () => {
         type="email"
         label="Email address"
         name="email"
-        validation="required|email"
+        validation="required"
         validation-visibility="live"
         placeholder="vikas@school.edu"
       />

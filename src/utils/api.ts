@@ -185,9 +185,11 @@ export const upload = async (slug: string, payload: any) => {
 
 export const login = async (payload: string[]): Promise<any> => {
   try {
+    updateLoading(true);
     const res = await instance.post("admin/login", payload);
     console.log("login", res);
     if (res.data.token) {
+      updateLoading(false);
       localStorage.setItem("token", res.data.token);
       updateAuth(true);
       window.location.reload();
