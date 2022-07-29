@@ -63,14 +63,11 @@ async function submitForm() {
   }
 
   const url = await uploadFile(formattedData.slug, data.value.eventCoverUpload);
-
   if (!url.includes("no key")) formattedData.eventCover = url;
 
   let res;
   if (update) res = await putEvent(formattedData);
   else res = await postEvent(formattedData);
-
-  console.log("here", res);
 
   if (res) toggleCreate();
 }
@@ -149,13 +146,13 @@ onUnmounted(() => {
         </section>
 
         <section v-show="stepnumber == 3">
-          <Step3 :remove="removeInput" />
+          <Step3 :remove="removeInput" :update="update" />
         </section>
         <section v-show="stepnumber == 4">
-          <Step4 :remove="removeInput" />
+          <Step4 :remove="removeInput" :update="update" />
         </section>
         <section v-show="stepnumber == 5">
-          <Step5 :remove="removeInput" />
+          <Step5 :remove="removeInput" :update="update" />
         </section>
 
         <div class="actions">

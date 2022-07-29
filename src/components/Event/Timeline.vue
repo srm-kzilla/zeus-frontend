@@ -15,6 +15,7 @@ const { timeline } = defineProps<Props>();
       <h3 v-if="event.title">
         {{ event.title }}
       </h3>
+      <h4 v-if="event.date">{{ event.date }}</h4>
       <p v-if="event.description">
         {{ event.description }}
       </p>

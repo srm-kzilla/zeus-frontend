@@ -1,12 +1,15 @@
 <script setup lang="ts">
 import { ref } from "vue";
-const props = defineProps({
-  remove: null,
-});
+interface Props {
+  remove: any;
+  update: any;
+}
+const { remove, update } = defineProps<Props>();
 
 let currentTotal = ref(0);
+
 // Optimize this
-const data = JSON.parse(localStorage.getItem("data")!);
+const data = JSON.parse(localStorage.getItem(update ? "update-data" : "data")!);
 Object.keys(data).map((key: string) => {
   if (key.includes("timeline")) {
     const num = parseInt(key.split("_")[2]);
@@ -21,7 +24,7 @@ function incInputs() {
 }
 
 function decInputs() {
-  props.remove("timeline", ["date", "title", "description"], total.value);
+  remove("timeline", ["date", "title", "description"], total.value);
   total.value--;
 }
 </script>

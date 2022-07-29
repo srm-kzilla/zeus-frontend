@@ -13,6 +13,11 @@ export default function formatData(data: Event) {
 
       if (timeline[currIdx - 1] == undefined) timeline[currIdx - 1] = {};
       timeline[currIdx - 1][currKey] = value;
+      if (currKey == "date")
+        timeline[currIdx - 1][currKey] = timeline[currIdx - 1][currKey].replace(
+          "T",
+          " ",
+        );
 
       delete (data as any)[key];
     }
@@ -64,6 +69,10 @@ export function unFormatData(data: Event) {
   timeline.forEach((event, id) => {
     Object.keys(event).map((key) => {
       newData[`timeline_${key}_${id + 1}`] = event[key];
+      if (key == "date")
+        newData[`timeline_${key}_${id + 1}`] = newData[
+          `timeline_${key}_${id + 1}`
+        ].replaceAll(" ", "T");
     });
   });
 
