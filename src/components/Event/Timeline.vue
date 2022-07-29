@@ -10,12 +10,14 @@ const { timeline } = defineProps<Props>();
 </script>
 <template>
   <h1>Timeline</h1>
-  <div v-for="event in timeline" :key="event.date">
-    <h3 v-if="event.title">
-      {{ event.title }}
-    </h3>
-    <p v-if="event.description">
-      {{ event.description }}
-    </p>
-  </div>
+  <ul>
+    <li v-for="event in timeline" :key="event.date">
+      <h3 v-if="event.title">
+        {{ event.title }}
+      </h3>
+      <p v-if="event.description">
+        {{ event.description }}
+      </p>
+    </li>
+  </ul>
 </template>

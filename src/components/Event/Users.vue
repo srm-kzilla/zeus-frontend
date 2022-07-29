@@ -22,10 +22,8 @@ function myFunction() {
       toSelect.value.includes("email") ? item.email + "$#*" : ""
     } ${toSelect.value.includes("_id") ? item._id + "$#*" : ""} ${toSelect.value.includes("name") ? item.name + "$#*" : ""} ${toSelect.value.includes("phoneNumber") ? item.phoneNumber + "$#*" : ""}`;
   });
-  console.log(copyText);
-
   /* Copy the text inside the text field */
-  copyText = copyText!.toString().replaceAll(",", "\n").replaceAll("$#*", ",");
+  copyText = copyText!.toString().replaceAll(",", "").replaceAll("$#*", ",");
   navigator.clipboard.writeText(copyText);
 
   /* Alert the copied text */
@@ -39,6 +37,7 @@ onMounted(async () => {
 </script>
 
 <template v-if="data.users">
+  <h1>Users Registered</h1>
   <FormKit
     v-model="toSelect"
     type="checkbox"
@@ -49,6 +48,8 @@ onMounted(async () => {
   <button @click="myFunction" class="button">
     Copy All of the selected fields
   </button>
+
+  <button class="button">Create a <strong>Sandesh</strong> Mailing list</button>
 
   <ol>
     <li class="users" v-for="user in data.users.users" :key="user.email">

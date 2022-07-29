@@ -10,14 +10,12 @@ const { data } = defineProps<Props>();
 </script>
 
 <template>
-  <div class="details event-section">
-    <h1>
-      {{ data.title }}
-    </h1>
-    <h3>{{ data.tagline }}</h3>
-    <p>
-      {{ data.description }}
-    </p>
-    <img class="asset-image" :src="data.eventCover" alt="hello" />
-  </div>
+  <h1>
+    {{ data.title }}
+  </h1>
+  <h3>{{ data.tagline }}</h3>
+  <p>
+    {{ data.description }}
+  </p>
+  <img class="asset-image" :src="data.eventCover" alt="hello" />
 </template>

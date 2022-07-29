@@ -13,25 +13,31 @@ interface Props {
   update?: boolean;
 }
 
+const getStorageItem = () => (update ? "update-data" : "data");
+
 const { toggleCreate, update } = defineProps<Props>();
 
+const totalSteps = 5;
 const stepnumber = ref(1);
 const data = ref<any>({
-  ...JSON.parse(localStorage.getItem("data")!),
+  ...JSON.parse(localStorage.getItem(getStorageItem())!),
   eventCoverUpload: [],
 });
 const imageSource = ref();
 const imageAlt = ref("Event cover");
 
 onMounted(() => {
-  if (JSON.parse(localStorage.getItem("data")!).eventCoverUpload.length >= 1) {
+  if (
+    JSON.parse(localStorage.getItem(getStorageItem())!).eventCoverUpload
+      .length >= 1
+  ) {
     alert("You will need to upload the image again");
   }
 });
 
 async function saveToLocal() {
   let storedData = data.value;
-  localStorage.setItem("data", JSON.stringify({ ...storedData }));
+  localStorage.setItem(getStorageItem(), JSON.stringify({ ...storedData }));
 }
 
 async function submitForm() {
@@ -70,7 +76,7 @@ async function submitForm() {
 }
 
 function incStep() {
-  if (stepnumber.value < 5) stepnumber.value++;
+  if (stepnumber.value < totalSteps) stepnumber.value++;
 }
 
 function decStep() {
@@ -79,7 +85,7 @@ function decStep() {
 
 const resetForm = () => {
   if (confirm("Are you sure you want to reset the Form?")) {
-    localStorage.removeItem("data");
+    localStorage.removeItem(getStorageItem());
     data.value = { eventCoverUpload: [] };
   }
 };
@@ -132,6 +138,7 @@ onUnmounted(() => {
           <Close />
         </div>
       </div>
+      <div class="step-number">Step {{ stepnumber }} of {{ totalSteps }}</div>
       <FormKit type="form" v-model="data" :actions="false" @submit="submitForm">
         <section v-show="stepnumber == 1">
           <Step1 />
@@ -170,7 +177,7 @@ onUnmounted(() => {
           <FormKit
             type="button"
             @click="incStep"
-            v-if="stepnumber < 5"
+            v-if="stepnumber < totalSteps"
             :classes="{
               wrapper: { $reset: true },
               outer: { $reset: true },
@@ -185,14 +192,14 @@ onUnmounted(() => {
           <FormKit
             type="submit"
             label="Submit"
-            v-if="stepnumber === 5"
+            v-if="stepnumber === totalSteps"
             :classes="{
               wrapper: { $reset: true },
               outer: { $reset: true },
               inner: { $reset: true },
               input: { $reset: true },
             }"
-            input-class="button"
+            input-class="button submit"
           />
         </div>
 
@@ -218,9 +225,7 @@ onUnmounted(() => {
 .background {
   z-index: 10;
   position: fixed;
-
   inset: 0;
-
   background-color: rgba(0, 0, 0, 0.5);
 }
 .form-container {
@@ -243,9 +248,15 @@ onUnmounted(() => {
   width: clamp(576px, 30%, 90vw);
   background: var(--bg-color);
   padding: 3rem;
-  border-radius: 3rem;
+  border-radius: 1rem;
   max-height: 80vh;
   overflow-y: auto;
+  /* background-color: #fff; */
+  box-shadow: 1px 2px 10px rgba(0, 0, 0, 0.3);
+}
+.step-number {
+  margin: 1rem auto;
+  text-align: center;
 }
 
 @media only screen and (max-width: 768px) {
@@ -267,6 +278,10 @@ section {
 }
 .heading > .close {
   cursor: pointer;
+  transition: all 150ms ease-out;
+}
+.close:hover {
+  transform: scale(1.1);
 }
 
 .actions {

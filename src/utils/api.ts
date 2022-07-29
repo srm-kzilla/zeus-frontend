@@ -200,3 +200,12 @@ export const login = async (payload: string[]): Promise<any> => {
     updateLoading(false);
   }
 };
+
+// Sample sandesh request
+// {
+//   "name": "test title",
+//   "description": "test desc",
+//   "emails": [
+//     "test123123@gami.com"
+//   ]
+// }

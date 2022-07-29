@@ -17,7 +17,7 @@ function redirect() {
 </script>
 
 <template>
-  <div class="card" @click="redirect">
+  <div class="card event-section" @click="redirect">
     <h1>
       {{ props.event?.title }}
     </h1>
@@ -30,14 +30,10 @@ function redirect() {
 
 <style scoped>
 .card {
-  border: 0.1rem var(--accent-color) solid;
   margin: 1rem 0;
   padding: 2rem;
   cursor: pointer;
-  border-radius: 1rem;
   transition: all 200ms ease-in-out;
-
-  box-shadow: 5px 7px 10px rgba(0, 0, 0, 0.25);
 }
 
 .card > .time {

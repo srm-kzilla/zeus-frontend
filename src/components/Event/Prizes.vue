@@ -10,21 +10,25 @@ const { prizes } = defineProps<Props>();
 </script>
 <template>
   <h1>Prizes</h1>
-  <div v-for="prize in prizes" :key="prize.asset">
-    <h3 v-if="prize.amount">
-      {{ prize.amount }}
-    </h3>
-    <p v-if="prize.description">
-      {{ prize.description }}
-    </p>
-    <p v-if="prize.sponsor">
-      {{ prize.sponsor }}
-    </p>
-    <img
-      class="asset-image"
-      v-if="prize.asset"
-      :src="prize.asset"
-      alt="asset image"
-    />
-  </div>
+  <ul>
+    <li v-for="prize in prizes" :key="prize.asset">
+      <h3 v-if="prize.amount">
+        {{ prize.amount }}
+      </h3>
+      <p v-if="prize.description">
+        {{ prize.description }}
+      </p>
+      <p v-if="prize.sponsor">
+        {{ prize.sponsor }}
+      </p>
+      <img
+        class="asset-image"
+        v-if="prize.asset"
+        :src="prize.asset"
+        alt="asset image"
+      />
+    </li>
+  </ul>
 </template>
+
+<style scoped></style>

@@ -19,7 +19,7 @@ const route = useRoute();
 const slug = ref(route.params.slug);
 let create = ref(false);
 function toggleCreate() {
-  localStorage.removeItem("data");
+  localStorage.removeItem("update-data");
   localStorage.setItem("oldslug", data.event?.slug!);
 
   const newData: any = data;
@@ -29,7 +29,10 @@ function toggleCreate() {
     if (key.includes("Upload")) newData[key] = [];
   });
 
-  localStorage.setItem("data", JSON.stringify(unFormatData(newData.event)));
+  localStorage.setItem(
+    "update-data",
+    JSON.stringify(unFormatData(newData.event)),
+  );
   create.value = !create.value;
 }
 
@@ -47,18 +50,25 @@ watch(slug, () => {
   <Form v-if="create" :toggleCreate="toggleCreate" :update="true" />
   <div class="event" v-if="data.event != null">
     <button @click="toggleCreate" class="button">Update Event</button>
-    <Details :data="data.event" />
-    <div class="event-section">
-      <Prizes :prizes="data.event.prizes" />
+    <div class="row">
+      <div class="details event-section">
+        <Details :data="data.event" />
+      </div>
+      <div class="event-section prizes">
+        <Prizes :prizes="data.event.prizes" />
+      </div>
     </div>
-    <div class="event-section">
-      <Speakers :speakers="data.event.speakers" />
-    </div>
-    <div class="event-section">
-      <Timeline :timeline="data.event.timeline" />
+    <div class="row">
+      <div class="event-section speakers">
+        <Speakers :speakers="data.event.speakers" class="event-section" />
+      </div>
+
+      <div class="event-section timeline">
+        <Timeline :timeline="data.event.timeline" />
+      </div>
     </div>
 
-    <div class="event-section">
+    <div class="event-section users">
       <Users :eventSlug="data.event.slug" />
     </div>
   </div>
@@ -66,6 +76,38 @@ watch(slug, () => {
 
 <style scoped>
 .button {
-  margin-right: auto;
+  display: block;
+  margin-left: auto;
+}
+.row {
+  display: grid;
+  flex-wrap: wrap;
+  gap: 2rem;
+  margin-top: 2rem;
+  margin-bottom: 2rem;
+  grid-template-columns: repeat(2, 1fr);
+}
+
+.details {
+  background-color: #dbd8f0aa;
+}
+.prizes {
+  background-color: #cbf3f0aa;
+}
+
+.speakers {
+  background-color: #ffe5d9aa;
+}
+.timeline {
+  background-color: #fcf3c5aa;
+}
+.users {
+  background-color: #b1ff9e2e;
+}
+
+@media screen and (max-width: 864px) {
+  .row {
+    grid-template-columns: repeat(1, 1fr);
+  }
 }
 </style>
