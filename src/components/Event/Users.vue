@@ -10,6 +10,7 @@ const toSelect = ref<any[]>([]);
 
 const props = defineProps({
   eventSlug: String,
+  toggleModal: Function,
 });
 
 function selectFields() {
@@ -57,14 +58,17 @@ function saveCSV() {
   document.body.removeChild(downloadLink);
 }
 
-function createMailingList() {
-  const mails = data.users.users?.map((user) => user.email);
-  const final = {
-    name: props.eventSlug,
-    description: "Mailing list from zeus for " + props.eventSlug,
-    emails: mails,
-  };
-  postMailingList(final);
+async function createMailingList() {
+  const res = await props.toggleModal!();
+  if (res.data.success) {
+    const mails = data.users.users?.map((user) => user.email);
+    const final = {
+      name: props.eventSlug,
+      description: "Mailing list from zeus for " + props.eventSlug,
+      emails: mails,
+    };
+    postMailingList(final);
+  }
 }
 
 onMounted(async () => {

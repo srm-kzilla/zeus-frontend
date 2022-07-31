@@ -1,8 +1,14 @@
 <script setup lang="ts">
 import { ref } from "vue";
 import { sandesh_login } from "../utils/api";
+import Close from "./shared/Close.vue";
 
 const data = ref<any>({});
+interface Props {
+  toggleModal: () => void;
+}
+
+const { toggleModal } = defineProps<Props>();
 const loginUser = () => {
   sandesh_login(data.value);
 };
@@ -10,9 +16,14 @@ const loginUser = () => {
 <template>
   <div class="form-container">
     <div class="form">
+      <div class="heading">
+        <h1>Login to Sandesh</h1>
+        <div class="close" @click="toggleModal">
+          <Close />
+        </div>
+      </div>
       <div class="login">
         <FormKit type="group" v-model="data">
-          <h2>Login</h2>
           <FormKit
             type="email"
             label="Email address"
@@ -73,6 +84,18 @@ const loginUser = () => {
   overflow-y: auto;
   /* background-color: #fff; */
   box-shadow: 1px 2px 10px rgba(0, 0, 0, 0.3);
+}
+.heading {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.heading > .close {
+  cursor: pointer;
+  transition: all 150ms ease-out;
+}
+.close:hover {
+  transform: scale(1.1);
 }
 .login {
   border-radius: 2rem;

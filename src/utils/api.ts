@@ -218,10 +218,12 @@ export const sandesh_login = async (payload: string[]): Promise<any> => {
       throw new Error("Wrong email or password");
     }
     updateLoading(false);
+    return res;
   } catch (err) {
     console.log(err);
     makeToast("Error in Logging in", { type: "danger" });
     updateLoading(false);
+    return err;
   }
 };
 

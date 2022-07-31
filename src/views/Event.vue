@@ -39,6 +39,11 @@ function toggleCreate() {
   create.value = !create.value;
 }
 
+function sandeshLoginModal() {
+  if (!localStorage.getItem("sandesh-token"))
+    sandeshModal.value = !sandeshModal.value;
+}
+
 const getEvent = async () => {
   data.event = ((await fetchSingleEvent(slug.value.toString())) as Event[])![0];
 };
@@ -51,7 +56,7 @@ watch(slug, () => {
 
 <template>
   <Form v-if="create" :toggleCreate="toggleCreate" :update="true" />
-  <SandeshLogin v-if="sandeshModal" />
+  <SandeshLogin v-if="sandeshModal" :toggleModal="sandeshLoginModal" />
   <div class="event" v-if="data.event != null">
     <button @click="toggleCreate" class="button">Update Event</button>
     <div class="row">
@@ -73,7 +78,7 @@ watch(slug, () => {
     </div>
 
     <div class="event-section users">
-      <Users :eventSlug="data.event.slug" />
+      <Users :eventSlug="data.event.slug" :toggleModal="sandeshLoginModal" />
     </div>
   </div>
 </template>
