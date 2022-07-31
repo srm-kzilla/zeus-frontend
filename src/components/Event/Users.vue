@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { fetchUserByEvent, sendMails } from "../../utils/api";
+import { fetchUserByEvent, postMailingList, sendMails } from "../../utils/api";
 import { onMounted, reactive, ref } from "vue";
 import { User as UserType } from "../../types/global";
 
@@ -12,7 +12,7 @@ const props = defineProps({
   eventSlug: String,
 });
 
-function myFunction() {
+function selectFields() {
   /* Get the text field */
   console.log(data.users.users);
 
@@ -30,9 +30,45 @@ function myFunction() {
   alert("Copied the text: " + copyText);
 }
 
+function saveCSV() {
+  let saveText: any = data.users.users?.map(function (item) {
+    return [
+      toSelect.value.includes("_id") ? item._id : "",
+      toSelect.value.includes("email") ? item.email : "",
+      toSelect.value.includes("name") ? item.name : "",
+      toSelect.value.includes("phoneNumber") ? item.phoneNumber : "",
+    ];
+  });
+  let csvContent = "data:text/csv;charset=utf-8,",
+    dataString;
+  saveText.forEach(function (infoArray: any, index: number) {
+    dataString = infoArray.join(",");
+    csvContent += dataString + "\n";
+  });
+
+  var encodedUri = encodeURI(csvContent);
+
+  const downloadLink = document.createElement("a");
+  downloadLink.href = encodedUri;
+  downloadLink.download = props.eventSlug!;
+
+  document.body.appendChild(downloadLink);
+  downloadLink.click();
+  document.body.removeChild(downloadLink);
+}
+
+function createMailingList() {
+  const mails = data.users.users?.map((user) => user.email);
+  const final = {
+    name: props.eventSlug,
+    description: "Mailing list from zeus for " + props.eventSlug,
+    emails: mails,
+  };
+  postMailingList(final);
+}
+
 onMounted(async () => {
   data.users = (await fetchUserByEvent(props.eventSlug!)) as any;
-  console.log(data.users);
 });
 </script>
 
@@ -45,11 +81,15 @@ onMounted(async () => {
     :options="['_id', 'name', 'email', 'phoneNumber']"
   />
 
-  <button @click="myFunction" class="button">
-    Copy All of the selected fields
+  <button @click="selectFields" class="button">
+    Copy all of the selected fields
   </button>
 
-  <button class="button">Create a <strong>Sandesh</strong> Mailing list</button>
+  <button @click="saveCSV" class="button">Save CSV of selclted fields</button>
+
+  <button @click="createMailingList" class="button">
+    Create a <strong>Sandesh</strong> Mailing list
+  </button>
 
   <ol>
     <li class="users" v-for="user in data.users.users" :key="user.email">

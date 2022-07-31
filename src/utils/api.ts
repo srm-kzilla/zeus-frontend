@@ -201,6 +201,52 @@ export const login = async (payload: string[]): Promise<any> => {
   }
 };
 
+const instanceSandesh: AxiosInstance = axios.create({
+  baseURL: (import.meta as any).env.VITE_SANDESH_BASE_URL,
+  headers: {
+    authorization: "Bearer " + localStorage.getItem("sandesh-token")!,
+  },
+});
+
+export const sandesh_login = async (payload: string[]): Promise<any> => {
+  try {
+    updateLoading(true);
+    const res = await instanceSandesh.post("user/login", payload);
+    if (res.data.token) {
+      localStorage.setItem("sandesh-token", res.data.token);
+    } else {
+      throw new Error("Wrong email or password");
+    }
+    updateLoading(false);
+  } catch (err) {
+    console.log(err);
+    makeToast("Error in Logging in", { type: "danger" });
+    updateLoading(false);
+  }
+};
+
+export const postMailingList = async (payload: any): Promise<any> => {
+  try {
+    updateLoading(true);
+    const res = await instanceSandesh.post("mailingList/create", payload);
+    // const res = payload;
+    console.log(res);
+
+    console.log(payload);
+
+    if (!res.data.success) {
+      throw new Error("Error in creating mailing list");
+    } else {
+      makeToast("Successfully Created Mailing list", { type: "success" });
+    }
+    updateLoading(false);
+    return res.data;
+  } catch (err) {
+    makeToast("Error in Creating Mailing list", { type: "danger" });
+    return false;
+  }
+};
+
 // Sample sandesh request
 // {
 //   "name": "test title",

@@ -12,12 +12,15 @@ import {
 } from "../components/Event";
 import { Form } from "../components/Create";
 import { unFormatData } from "../utils/formatData";
+import { SandeshLogin } from "../components";
 
 let data = reactive<{ event: Event | null }>({ event: null });
 
 const route = useRoute();
 const slug = ref(route.params.slug);
 let create = ref(false);
+let sandeshModal = ref(false);
+
 function toggleCreate() {
   localStorage.removeItem("update-data");
   localStorage.setItem("oldslug", data.event?.slug!);
@@ -48,6 +51,7 @@ watch(slug, () => {
 
 <template>
   <Form v-if="create" :toggleCreate="toggleCreate" :update="true" />
+  <SandeshLogin v-if="sandeshModal" />
   <div class="event" v-if="data.event != null">
     <button @click="toggleCreate" class="button">Update Event</button>
     <div class="row">
