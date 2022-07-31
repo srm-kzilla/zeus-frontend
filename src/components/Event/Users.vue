@@ -15,7 +15,6 @@ const props = defineProps({
 
 function selectFields() {
   /* Get the text field */
-  console.log(data.users.users);
 
   let copyText: any = data.users.users?.map(function (item) {
     return `

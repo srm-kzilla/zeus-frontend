@@ -3,7 +3,6 @@ import AllEvents from "../views/AllEvents.vue";
 import Event from "../views/Event.vue";
 import Login from "../views/Login.vue";
 import { isAuth } from "../utils/authStore";
-console.log(isAuth);
 
 const routes: Array<RouteRecordRaw> = [
   {
@@ -25,8 +24,6 @@ const router = createRouter({
   routes,
 });
 router.beforeEach((to, from) => {
-  console.log(isAuth, to.name);
-
   if (!isAuth.value && to.name !== "Home") {
     return { name: "Home" };
   }

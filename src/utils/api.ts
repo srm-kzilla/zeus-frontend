@@ -33,7 +33,6 @@ export const postEvent = async (payload: Event): Promise<any> => {
       const speakerRes = await postSpeaker(payload.speakers as any);
       if (speakerRes) updateLoading(false);
     }
-    console.log(res);
 
     return res.data;
   } catch (err) {
@@ -187,7 +186,6 @@ export const login = async (payload: string[]): Promise<any> => {
   try {
     updateLoading(true);
     const res = await instance.post("admin/login", payload);
-    console.log("login", res);
     if (res.data.token) {
       updateLoading(false);
       localStorage.setItem("token", res.data.token);
@@ -232,9 +230,6 @@ export const postMailingList = async (payload: any): Promise<any> => {
     updateLoading(true);
     const res = await instanceSandesh.post("mailingList/create", payload);
     // const res = payload;
-    console.log(res);
-
-    console.log(payload);
 
     if (!res.data.success) {
       throw new Error("Error in creating mailing list");
