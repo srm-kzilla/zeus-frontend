@@ -1,9 +1,11 @@
 <script setup lang="ts">
 import Image from "../../assets/Kzilla Logo.png";
-import { updateAuth } from "../../utils/authStore";
+import { updateAuth, updateSandeshAuth } from "../../utils/authStore";
 function logout() {
   localStorage.removeItem("token");
+  localStorage.removeItem((import.meta as any).env.VITE_SANDESH_KEY);
   updateAuth(false);
+  updateSandeshAuth(false);
   window.location.reload();
 }
 </script>
