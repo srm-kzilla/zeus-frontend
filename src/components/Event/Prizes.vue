@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { reactive, ref, watch } from "vue";
 import { Event as EventType } from "../../types/global";
 
 interface Props {

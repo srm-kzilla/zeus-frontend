@@ -40,8 +40,7 @@ function toggleCreate() {
 }
 
 function sandeshLoginModal() {
-  if (!localStorage.getItem("sandesh-token"))
-    sandeshModal.value = !sandeshModal.value;
+  sandeshModal.value = !sandeshModal.value;
 }
 
 const getEvent = async () => {
@@ -78,7 +77,11 @@ watch(slug, () => {
     </div>
 
     <div class="event-section users">
-      <Users :eventSlug="data.event.slug" :toggleModal="sandeshLoginModal" />
+      <Users
+        :eventSlug="data.event.slug"
+        :isOpen="sandeshModal"
+        :toggleModal="sandeshLoginModal"
+      />
     </div>
   </div>
 </template>

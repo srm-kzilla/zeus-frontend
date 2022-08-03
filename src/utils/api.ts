@@ -2,7 +2,7 @@ import { Event, User } from "../types/global";
 import axios, { AxiosInstance } from "axios";
 import { updateLoading } from "./toggleLoading";
 import makeToast from "./createToast";
-import { updateAuth } from "./authStore";
+import { isSandeshAuth, updateAuth, updateSandeshAuth } from "./authStore";
 
 const instance: AxiosInstance = axios.create({
   baseURL: (import.meta as any).env.VITE_BASE_URL,
@@ -201,17 +201,16 @@ export const login = async (payload: string[]): Promise<any> => {
 
 const instanceSandesh: AxiosInstance = axios.create({
   baseURL: (import.meta as any).env.VITE_SANDESH_BASE_URL,
-  headers: {
-    authorization: "Bearer " + localStorage.getItem("sandesh-token")!,
-  },
 });
 
 export const sandesh_login = async (payload: string[]): Promise<any> => {
   try {
     updateLoading(true);
     const res = await instanceSandesh.post("user/login", payload);
-    if (res.data.token) {
-      localStorage.setItem("sandesh-token", res.data.token);
+    if (await res.data.token) {
+      localStorage.setItem("sandesh-token", "Bearer " + res.data.token);
+      isSandeshAuth.value = true;
+      updateSandeshAuth(true);
     } else {
       throw new Error("Wrong email or password");
     }
@@ -228,8 +227,11 @@ export const sandesh_login = async (payload: string[]): Promise<any> => {
 export const postMailingList = async (payload: any): Promise<any> => {
   try {
     updateLoading(true);
-    const res = await instanceSandesh.post("mailingList/create", payload);
-    // const res = payload;
+    const res = await instanceSandesh.post("mailingList/create", payload, {
+      headers: {
+        authorization: localStorage.getItem("sandesh-token") as string,
+      },
+    });
 
     if (!res.data.success) {
       throw new Error("Error in creating mailing list");
@@ -240,15 +242,7 @@ export const postMailingList = async (payload: any): Promise<any> => {
     return res.data;
   } catch (err) {
     makeToast("Error in Creating Mailing list", { type: "danger" });
+    updateLoading(false);
     return false;
   }
 };
-
-// Sample sandesh request
-// {
-//   "name": "test title",
-//   "description": "test desc",
-//   "emails": [
-//     "test123123@gami.com"
-//   ]
-// }

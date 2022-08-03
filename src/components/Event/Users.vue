@@ -1,7 +1,8 @@
 <script setup lang="ts">
 import { fetchUserByEvent, postMailingList, sendMails } from "../../utils/api";
-import { onMounted, reactive, ref } from "vue";
+import { onMounted, reactive, ref, watch } from "vue";
 import { User as UserType } from "../../types/global";
+import { isSandeshAuth } from "../../utils/authStore";
 
 const data: { users: { users?: UserType[] } } = reactive({
   users: {},
@@ -10,6 +11,7 @@ const toSelect = ref<any[]>([]);
 
 const props = defineProps({
   eventSlug: String,
+  isOpen: Boolean,
   toggleModal: Function,
 });
 
@@ -58,20 +60,27 @@ function saveCSV() {
 }
 
 async function createMailingList() {
-  const res = await props.toggleModal!();
-  if (res.data.success) {
+  if (!localStorage.getItem("sandesh-token")) {
+    props.toggleModal!();
+  } else {
     const mails = data.users.users?.map((user) => user.email);
     const final = {
       name: props.eventSlug,
-      description: "Mailing list from zeus for " + props.eventSlug,
+      description: "Mailing list for " + props.eventSlug + " from zeus",
       emails: mails,
     };
-    postMailingList(final);
+    await postMailingList(final);
+    props.isOpen && props.toggleModal!();
   }
 }
 
 onMounted(async () => {
   data.users = (await fetchUserByEvent(props.eventSlug!)) as any;
+});
+watch(isSandeshAuth, () => {
+  setTimeout(() => {
+    createMailingList();
+  }, 200);
 });
 </script>
 
