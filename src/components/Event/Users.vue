@@ -34,15 +34,29 @@ function selectFields() {
 
 function saveCSV() {
   let saveText: any = data.users.users?.map(function (item) {
-    return [
-      toSelect.value.includes("_id") ? item._id : "",
-      toSelect.value.includes("email") ? item.email : "",
-      toSelect.value.includes("name") ? item.name : "",
-      toSelect.value.includes("phoneNumber") ? item.phoneNumber : "",
-    ];
+    const arr = [];
+
+    if (toSelect.value.includes("_id")) arr.push(item._id);
+    if (toSelect.value.includes("email")) arr.push(item.email);
+    if (toSelect.value.includes("name")) arr.push(item.name);
+    if (toSelect.value.includes("phoneNumber")) arr.push(item.phoneNumber);
+
+    return arr;
   });
+
   let csvContent = "data:text/csv;charset=utf-8,",
     dataString;
+
+  const heading = [];
+
+  if (toSelect.value.includes("_id")) heading.push("_id");
+  if (toSelect.value.includes("email")) heading.push("email");
+  if (toSelect.value.includes("name")) heading.push("name");
+  if (toSelect.value.includes("phoneNumber")) heading.push("phoneNumber");
+
+  csvContent += heading.join(",");
+  csvContent += "\n";
+
   saveText.forEach(function (infoArray: any, index: number) {
     dataString = infoArray.join(",");
     csvContent += dataString + "\n";

@@ -33,6 +33,11 @@ h6 {
   font-weight: 600;
 }
 
+ul {
+  margin-left: 0px;
+  padding-left: 20px;
+}
+
 .button {
   background-color: white;
   /* color: var(--bg-color); */
