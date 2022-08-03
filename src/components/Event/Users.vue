@@ -60,7 +60,7 @@ function saveCSV() {
 }
 
 async function createMailingList() {
-  if (!localStorage.getItem("(import.meta as any).env.VITE_SANDESH_KEY")) {
+  if (!localStorage.getItem((import.meta as any).env.VITE_SANDESH_KEY)) {
     props.toggleModal!();
   } else {
     const mails = data.users.users?.map((user) => user.email);

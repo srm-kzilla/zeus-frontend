@@ -6,7 +6,7 @@ export function updateAuth(value: boolean) {
   isAuth.value = value;
 }
 export const isSandeshAuth = ref(
-  !!localStorage.getItem("(import.meta as any).env.VITE_SANDESH_KEY"),
+  !!localStorage.getItem((import.meta as any).env.VITE_SANDESH_KEY),
 );
 
 export function updateSandeshAuth(value: boolean) {

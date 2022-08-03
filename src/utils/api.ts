@@ -209,7 +209,7 @@ export const sandesh_login = async (payload: string[]): Promise<any> => {
     const res = await instanceSandesh.post("user/login", payload);
     if (await res.data.token) {
       localStorage.setItem(
-        "(import.meta as any).env.VITE_SANDESH_KEY",
+        (import.meta as any).env.VITE_SANDESH_KEY,
         "Bearer " + res.data.token,
       );
       isSandeshAuth.value = true;
@@ -233,7 +233,7 @@ export const postMailingList = async (payload: any): Promise<any> => {
     const res = await instanceSandesh.post("mailingList/create", payload, {
       headers: {
         authorization: localStorage.getItem(
-          "(import.meta as any).env.VITE_SANDESH_KEY",
+          (import.meta as any).env.VITE_SANDESH_KEY,
         ) as string,
       },
     });
