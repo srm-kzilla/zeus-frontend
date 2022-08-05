@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import Image from "../../assets/Kzilla Logo.png";
+import { isAuth } from "../../utils/authStore";
 import { updateAuth, updateSandeshAuth } from "../../utils/authStore";
 function logout() {
   localStorage.removeItem("token");
@@ -16,7 +17,9 @@ function logout() {
     </router-link>
 
     <div class="right">
-      <button class="button logout" @click="logout">Logout</button>
+      <button v-if="isAuth" class="button logout" @click="logout">
+        Logout
+      </button>
       <img :src="Image" alt="Logo" />
     </div>
   </div>
