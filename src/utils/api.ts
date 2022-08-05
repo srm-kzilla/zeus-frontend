@@ -26,7 +26,6 @@ export const fetchEvents = async (): Promise<Event[] | unknown> => {
 export const postEvent = async (payload: Event): Promise<any> => {
   try {
     updateLoading(true);
-    payload.MaxRsvp = 100;
     const res = await instance.post("event", payload);
 
     if (res.data) {
@@ -221,7 +220,6 @@ export const sandesh_login = async (payload: string[]): Promise<any> => {
     updateLoading(false);
     return res;
   } catch (err) {
-    console.log(err);
     makeToast("Error in Logging in", { type: "danger" });
     updateLoading(false);
     return err;

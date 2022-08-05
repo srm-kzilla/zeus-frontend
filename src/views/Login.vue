@@ -16,15 +16,13 @@ const loginUser = () => {
         label="Email address"
         name="email"
         validation="required"
-        validation-visibility="live"
-        placeholder="vikas@school.edu"
+        placeholder="technical@srmkzilla.net"
       />
       <FormKit
         type="password"
         name="password"
         label="Password"
         validation="required"
-        validation-visibility="live"
       />
       <FormKit
         type="button"

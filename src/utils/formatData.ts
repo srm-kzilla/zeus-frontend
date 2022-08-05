@@ -56,6 +56,9 @@ export default function formatData(data: Event) {
   }
   // delete (data as any).eventCoverUpload;
   data.slug = data.title.toLowerCase().replaceAll(" ", "_");
+
+  data.MaxRsvp = parseInt(data.MaxRsvp as any);
+  console.log(data);
   return data;
 }
 
@@ -87,5 +90,6 @@ export function unFormatData(data: Event) {
       newData[`prizes_${key}_${id + 1}`] = prize[key];
     });
   });
+
   return newData;
 }

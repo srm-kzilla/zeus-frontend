@@ -11,4 +11,10 @@
     label="Start Date"
     validation="required"
   />
+  <FormKit
+    name="MaxRsvp"
+    type="number"
+    label="Maxium RSVP"
+    validation="required"
+  />
 </template>

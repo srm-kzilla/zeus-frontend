@@ -25,19 +25,16 @@ const loginUser = () => {
       <div class="login">
         <FormKit type="group" v-model="data">
           <FormKit
-            type="email"
-            label="Email address"
+            label="Username"
             name="email"
             validation="required"
-            validation-visibility="live"
-            placeholder="vikas@school.edu"
+            placeholder="srmist.edu"
           />
           <FormKit
             type="password"
             name="password"
             label="Password"
             validation="required"
-            validation-visibility="live"
           />
           <FormKit
             type="button"
