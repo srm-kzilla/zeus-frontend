@@ -50,6 +50,7 @@ const loginUser = () => {
   flex-direction: column;
   gap: 0;
   justify-content: center;
+  margin: auto;
 
   border: 4px solid var(--accent-color);
 
