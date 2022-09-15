@@ -57,8 +57,7 @@ export default function formatData(data: Event) {
   // delete (data as any).eventCoverUpload;
   data.slug = data.title.toLowerCase().replaceAll(" ", "_");
 
-  data.MaxRsvp = parseInt(data.MaxRsvp as any);
-  console.log(data);
+  data.maxRsvp = parseInt(data.maxRsvp as any);
   return data;
 }
 

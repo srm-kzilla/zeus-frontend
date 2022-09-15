@@ -33,7 +33,7 @@ export interface Event {
   }[];
 
   isCompleted: boolean;
-  MaxRsvp?: number;
+  maxRsvp: number;
 }
 
 export interface User {

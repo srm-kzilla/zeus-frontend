@@ -17,10 +17,5 @@
     label="Start Date"
     validation="required"
   />
-  <FormKit
-    name="maxRsvp"
-    type="number"
-    label="Maxium RSVP"
-    validation="required"
-  />
+  <FormKit name="maxRsvp" label="Maxium RSVP" validation="required|number" />
 </template>
