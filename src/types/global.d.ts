@@ -10,6 +10,7 @@ export interface Event {
   // 2nd
   description: string;
   startDate?: string;
+  description2: string;
 
   // 3rd
   timeline: { date?: string; title?: string; description: string }[];
